@@ -104,6 +104,10 @@ public:
         input_cv_.notify_one();
     }
 
+    virtual void RequestStop() {
+        stop_requested_ = true;
+    }
+
 };
 
 #endif // VM_BASE_H

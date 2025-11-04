@@ -38,6 +38,9 @@ struct VmConfig {
   bool m_extension_enabled = true;
   bool f_extension_enabled = true;
   bool d_extension_enabled = true;
+  
+  bool hazard_detection = false;  // Mode 3: Hazard detection with stalls
+  bool forwarding = false;         // Mode 4: Forwarding to minimize stalls
 
   void setVmType(const VmTypes &type) {
     vm_type = type;
@@ -119,6 +122,22 @@ struct VmConfig {
   bool getDExtensionEnabled() const {
     return d_extension_enabled;
   }
+  
+  void setHazardDetection(bool enabled) {
+    hazard_detection = enabled;
+  }
+  
+  bool getHazardDetection() const {
+    return hazard_detection;
+  }
+  
+  void setForwarding(bool enabled) {
+    forwarding = enabled;
+  }
+  
+  bool getForwarding() const {
+    return forwarding;
+  }
 
   void modifyConfig(const std::string &section, const std::string &key, const std::string &value) {
     if (section == "Execution") {
@@ -134,6 +153,22 @@ struct VmConfig {
         setRunStepDelay(std::stoull(value));
       } else if (key == "instruction_execution_limit") {
         setInstructionExecutionLimit(std::stoull(value));
+      } else if (key == "hazard_detection") {
+        if (value == "true") {
+          setHazardDetection(true);
+        } else if (value == "false") {
+          setHazardDetection(false);
+        } else {
+          throw std::invalid_argument("Unknown value: " + value);
+        }
+      } else if (key == "forwarding") {
+        if (value == "true") {
+          setForwarding(true);
+        } else if (value == "false") {
+          setForwarding(false);
+        } else {
+          throw std::invalid_argument("Unknown value: " + value);
+        }
       }
       
       else {

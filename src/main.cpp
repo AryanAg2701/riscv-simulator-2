@@ -3,6 +3,7 @@
 #include "utils.h"
 #include "globals.h"
 #include "vm/rvss/rvss_vm.h"
+#include "vm/rv5s/rv5s_vm.h"
 #include "vm_runner.h"
 #include "command_handler.h"
 #include "config.h"
@@ -11,6 +12,7 @@
 #include <thread>
 #include <bitset>
 #include <regex>
+#include <memory>
 
 
 
@@ -55,9 +57,14 @@ int main(int argc, char *argv[]) {
         }
         try {
             AssembledProgram program = assemble(argv[i]);
-            RVSSVM vm;
-            vm.LoadProgram(program);
-            vm.Run();
+            std::unique_ptr<VmBase> vm_temp;
+            if (vm_config::config.getVmType() == vm_config::VmTypes::SINGLE_STAGE) {
+              vm_temp = std::make_unique<RVSSVM>();
+            } else {
+              vm_temp = std::make_unique<RV5SVM>();
+            }
+            vm_temp->LoadProgram(program);
+            vm_temp->Run();
             std::cout << "Program running: " << program.filename << '\n';
             return 0;
         } catch (const std::runtime_error& e) {
@@ -88,7 +95,14 @@ int main(int argc, char *argv[]) {
 
 
   AssembledProgram program;
-  RVSSVM vm;
+  // Create VM based on configuration
+  std::unique_ptr<VmBase> vm_ptr;
+  if (vm_config::config.getVmType() == vm_config::VmTypes::SINGLE_STAGE) {
+    vm_ptr = std::make_unique<RVSSVM>();
+  } else {
+    vm_ptr = std::make_unique<RV5SVM>();
+  }
+  VmBase& vm = *vm_ptr;
   // try {
   //   program = assemble("/home/vis/Desk/codes/assembler/examples/ntest1.s");
   // } catch (const std::runtime_error &e) {
@@ -146,6 +160,14 @@ int main(int argc, char *argv[]) {
       }
       try {
         vm_config::config.modifyConfig(command.args[0], command.args[1], command.args[2]);
+        // Recreate VM if processor type changed
+        if (command.args[0] == "Execution" && command.args[1] == "processor_type") {
+          if (vm_config::config.getVmType() == vm_config::VmTypes::SINGLE_STAGE) {
+            vm_ptr = std::make_unique<RVSSVM>();
+          } else {
+            vm_ptr = std::make_unique<RV5SVM>();
+          }
+        }
         std::cout << "VM_MODIFY_CONFIG_SUCCESS" << std::endl;
       } catch (const std::exception &e) {
         std::cout << "VM_MODIFY_CONFIG_ERROR" << std::endl;
