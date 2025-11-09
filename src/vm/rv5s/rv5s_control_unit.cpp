@@ -20,86 +20,85 @@ void RV5SControlUnit::SetControlSignals(uint32_t instruction) {
   pc_src_ = false;
 
   switch (opcode) {
-    case 0b0110011: /* R-type (kAdd, kSub, kAnd, kOr, kXor, kSll, kSrl, etc.) */ {
+    case 0b0110011:{
       reg_write_ = true;
       alu_op_ = true;
       break;
     }
-    case 0b0000011: {// Load instructions (LB, LH, LW, LD)
+    case 0b0000011: {
       alu_src_ = true;
       mem_to_reg_ = true;
       reg_write_ = true;
       mem_read_ = true;
       break;
     }
-    case 0b0100011: {// Store instructions (SB, SH, SW, SD)
+    case 0b0100011: {
       alu_src_ = true;
       alu_op_ = true;
       mem_write_ = true;
       break;
     }
-    case 0b1100011: {// branch_ instructions (BEQ, BNE, BLT, BGE)
+    case 0b1100011: {
       alu_op_ = true;
       branch_ = true;
       break;
     }
-    case 0b0010011: {// I-type alu instructions (ADDI, ANDI, ORI, XORI, SLTI, SLLI, SRLI)
+    case 0b0010011: {
       alu_src_ = true;
       reg_write_ = true;
       alu_op_ = true;
       break;
     }
-    case 0b0110111: {// LUI (Load Upper Immediate)
+    case 0b0110111: {// LUI
       alu_src_ = true;
       reg_write_ = true;
       alu_op_ = true;
       break;
     }
-    case 0b0010111: {// AUIPC (Add Upper Immediate to PC)
+    case 0b0010111: {//upper immediat wala
       alu_src_ = true;
       reg_write_ = true;
       alu_op_ = true;
       break;
     }
-    case 0b1101111: {// JAL (Jump and Link)
-      reg_write_ = true;
-      branch_ = true;
-      pc_src_ = true;
-      break;
-    }
-    case 0b1100111: {// JALR (Jump and Link Register)
-      alu_src_ = true;
+    case 0b1101111: { //jal
       reg_write_ = true;
       branch_ = true;
       pc_src_ = true;
       break;
     }
-    case 0b0000001: {// kMul
-      reg_write_ = true;
-      alu_op_ = true;
-      break;
-    }
-    // F extension + D extension
-    case 0b0000111: {// F-Type Load instructions (FLW, FLD)
+    case 0b1100111: {// jalr
       alu_src_ = true;
-      mem_to_reg_ = true;
       reg_write_ = true;
-      mem_read_ = true;
+      branch_ = true;
+      pc_src_ = true;
       break;
     }
-    case 0b0100111: {// F-Type Store instructions (FSW, FSD)
-      alu_src_ = true;
-      alu_op_ = true;
-      mem_write_ = true;
-      break;
-    }
-    case 0b1010011: {// F-Type R-type instructions (FADD, FSUB, FMUL, FDIV, etc.)
+    case 0b0000001: {
       reg_write_ = true;
       alu_op_ = true;
       break;
     }
-    default:
-      break;
+  //   // F extension + D extension
+  //   case 0b0000111: {
+  //     alu_src_ = true;
+  //     mem_to_reg_ = true;
+  //     reg_write_ = true;
+  //     mem_read_ = true;
+  //     break;
+  //   }
+  //   case 0b0100111: {
+  //     alu_src_ = true;
+  //     alu_op_ = true;
+  //     mem_write_ = true;
+  //     break;
+  //   }
+  //   case 0b1010011: {
+  //     alu_op_ = true;
+  //     break;
+  //   }
+  //   default:
+  //     break;
   }
 }
 

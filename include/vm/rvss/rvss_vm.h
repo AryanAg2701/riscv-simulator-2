@@ -99,7 +99,7 @@ struct StepDelta {
 class RVSSVM : public VmBase {
  public:
   RVSSControlUnit control_unit_;
-  std::atomic<bool> stop_requested_ = false;
+  std::atomic<bool> stop_requested_;
 
 
   std::stack<StepDelta> undo_stack_;

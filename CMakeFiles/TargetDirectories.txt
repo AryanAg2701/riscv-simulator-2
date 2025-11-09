@@ -1,0 +1,6 @@
+/Users/aryanagarwal/Documents/riscv-simulator-2/CMakeFiles/vm.dir
+/Users/aryanagarwal/Documents/riscv-simulator-2/CMakeFiles/run.dir
+/Users/aryanagarwal/Documents/riscv-simulator-2/CMakeFiles/debug.dir
+/Users/aryanagarwal/Documents/riscv-simulator-2/CMakeFiles/valgrind.dir
+/Users/aryanagarwal/Documents/riscv-simulator-2/CMakeFiles/edit_cache.dir
+/Users/aryanagarwal/Documents/riscv-simulator-2/CMakeFiles/rebuild_cache.dir

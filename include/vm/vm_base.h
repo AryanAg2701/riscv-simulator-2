@@ -39,7 +39,7 @@ public:
     ~VmBase() = default;
 
     AssembledProgram program_;
-    std::atomic<bool> stop_requested_ = false;
+    std::atomic<bool> stop_requested_;
     std::mutex input_mutex_;
     std::condition_variable input_cv_;
     std::queue<std::string> input_queue_;

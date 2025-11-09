@@ -76,7 +76,7 @@ struct EX_MEM_Register {
     bool branch_taken = false;
     uint64_t alu_result = 0;
     uint64_t write_data = 0;  // For stores
-    uint64_t pc = 0;  // PC of instruction (for passing through to MEM/WB)
+    uint64_t pc = 0; 
     uint8_t rd = 0;
     uint32_t instruction = 0;
     bool valid = false;
@@ -105,7 +105,7 @@ struct MEM_WB_Register {
     // Data
     uint64_t alu_result = 0;
     uint64_t mem_read_data = 0;
-    uint64_t pc = 0;  // PC of instruction (for calculating return address)
+    uint64_t pc = 0;
     uint8_t rd = 0;
     uint32_t instruction = 0;
     bool valid = false;

@@ -13,6 +13,7 @@
 
 #include <stack>
 #include <vector>
+#include <atomic>
 #include <iostream>
 #include <cstdint>
 
@@ -76,6 +77,11 @@ public:
     // Constructor/Destructor
     RV5SVM();
     ~RV5SVM();
+
+    RV5SVM(const RV5SVM&) = delete;
+    RV5SVM& operator=(const RV5SVM&) = delete;
+    RV5SVM(RV5SVM&&) = delete;
+    RV5SVM& operator=(RV5SVM&&) = delete;
     
     // Pipeline stage methods
     void Fetch();
@@ -83,9 +89,7 @@ public:
     void Execute();
     void MemoryAccess();
     void WriteBack();
-    
-    // Clock-driven execution
-    void Tick();  // Executes one cycle (all stages in reverse order)
+    void Tick(); 
     
     // Pipeline control
     void InsertBubble();
@@ -132,7 +136,7 @@ private:
     void WriteBackDouble();
     void WriteBackCsr();
     
-    std::atomic<bool> stop_requested_ = false;
+    inline static std::atomic<bool> stop_requested_{false};
 };
 
 #endif // RV5S_VM_H

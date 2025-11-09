@@ -55,9 +55,8 @@ bool RV5SVM::HasInstructionsInPipeline() const {
 }
 
 void RV5SVM::InsertBubble() {
-  // Insert NOP (ADDI x0, x0, 0 = 0x00000013)
   id_ex.Clear();
-  id_ex.instruction = 0x00000013;  // NOP
+  id_ex.instruction = 0x00000013;
   id_ex.valid = true;
 }
 
@@ -81,11 +80,11 @@ void RV5SVM::Tick() {
 }
 
 void RV5SVM::Fetch() {
-  // Check if we should stall (Mode 3: Hazard Detection)
+  // Check if we should stall
   if (pipeline_stall_) {
     // Don't fetch new instruction, keep current PC
     // Insert NOP into IF/ID to prevent invalid instruction
-    if_id.instruction = 0x00000013;  // NOP (ADDI x0, x0, 0)
+    if_id.instruction = 0x00000013;  // NOP
     if_id.pc = program_counter_;  // Keep current PC
     if_id.valid = true;
     return;
@@ -124,24 +123,23 @@ void RV5SVM::Decode() {
     return;
   }
   
-  // Mode 3: Hazard Detection - Check for hazards before decoding
+  // Mode 3: Hazard Detection
   if (hazard_detection_enabled_) {
     // Check if we should stall due to data hazard or load-use hazard
     if (hazard_unit_.ShouldStall(if_id, id_ex, ex_mem, mem_wb)) {
       // Hazard detected - insert bubble and stall pipeline
       pipeline_stall_ = true;
-      InsertBubble();  // Insert NOP into ID/EX
+      InsertBubble();  // Insert NOP 
       stats_.stalls++;
       
       // Check if it's a load-use hazard (more specific tracking)
       if (hazard_unit_.DetectLoadUseHazard(if_id, ex_mem)) {
-        // Load-use hazard - will need 1 cycle stall
       } else {
         stats_.data_hazards++;  // General RAW hazard
       }
-      return;  // Don't decode this instruction yet
+      return;
     } else {
-      // No hazard - clear stall flag if it was set
+      // No hazard
       pipeline_stall_ = false;
     }
   }
@@ -201,17 +199,17 @@ void RV5SVM::Execute() {
     return;
   }
   
-  // Handle floating point instructions
-  if (instruction_set::isFInstruction(instruction)) {
-    ExecuteFloat();
-    return;
-  } else if (instruction_set::isDInstruction(instruction)) {
-    ExecuteDouble();
-    return;
-  } else if (opcode == 0b1110011) {
-    ExecuteCsr();
-    return;
-  }
+  // // Handle floating point instructions
+  // if (instruction_set::isFInstruction(instruction)) {
+  //   ExecuteFloat();
+  //   return;
+  // } else if (instruction_set::isDInstruction(instruction)) {
+  //   ExecuteDouble();
+  //   return;
+  // } else if (opcode == 0b1110011) {
+  //   ExecuteCsr();
+  //   return;
+  // }
   
   // Get ALU inputs
   uint64_t reg1_value = id_ex.read_data1;
@@ -245,7 +243,7 @@ void RV5SVM::Execute() {
         pipeline_flush_ = true;
         program_counter_ = branch_target;
       }
-    } else if (opcode == get_instr_encoding(Instruction::kbeq).opcode ||
+      } else if (opcode == get_instr_encoding(Instruction::kbeq).opcode ||
                opcode == get_instr_encoding(Instruction::kbne).opcode ||
                opcode == get_instr_encoding(Instruction::kblt).opcode ||
                opcode == get_instr_encoding(Instruction::kbge).opcode ||

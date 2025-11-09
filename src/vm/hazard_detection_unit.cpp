@@ -28,23 +28,18 @@ bool HazardDetectionUnit::DetectDataHazard(const IF_ID_Register& if_id,
     uint32_t instruction = if_id.instruction;
     uint8_t id_rs1, id_rs2, id_rd;
     ExtractRegisters(instruction, id_rs1, id_rs2, id_rd);
-    
-    // Check if ID stage reads from registers that will be written
-    // by instructions in EX/MEM or MEM/WB stages
-    
+
     // Check EX/MEM stage
     if (WillWriteRegister(ex_mem.reg_write, ex_mem.rd)) {
-        // ID stage reads rs1, EX/MEM writes to same register
         if (id_rs1 == ex_mem.rd || id_rs2 == ex_mem.rd) {
-            return true;  // RAW hazard detected
+            return true;
         }
     }
     
     // Check MEM/WB stage
     if (WillWriteRegister(mem_wb.reg_write, mem_wb.rd)) {
-        // ID stage reads rs1 or rs2, MEM/WB writes to same register
         if (id_rs1 == mem_wb.rd || id_rs2 == mem_wb.rd) {
-            return true;  // RAW hazard detected
+            return true;
         }
     }
     
@@ -57,7 +52,7 @@ bool HazardDetectionUnit::DetectLoadUseHazard(const IF_ID_Register& if_id,
         return false;
     }
     
-    // Load-use hazard: EX stage is a LOAD, and ID stage needs that data
+    // Load use hazard
     if (ex_mem.mem_read && WillWriteRegister(ex_mem.reg_write, ex_mem.rd)) {
         // Extract registers from ID stage instruction
         uint32_t instruction = if_id.instruction;
@@ -66,7 +61,7 @@ bool HazardDetectionUnit::DetectLoadUseHazard(const IF_ID_Register& if_id,
         
         // Check if ID stage reads from the register that LOAD is writing to
         if (id_rs1 == ex_mem.rd || id_rs2 == ex_mem.rd) {
-            return true;  // Load-use hazard detected
+            return true; 
         }
     }
     
@@ -82,7 +77,6 @@ bool HazardDetectionUnit::ShouldStall(const IF_ID_Register& if_id,
         return true;
     }
     
-    // Check general data hazard (RAW)
     if (DetectDataHazard(if_id, id_ex, ex_mem, mem_wb)) {
         return true;
     }

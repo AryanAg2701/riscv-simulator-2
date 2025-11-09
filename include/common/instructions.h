@@ -6,6 +6,11 @@
 
 #ifndef INSTRUCTIONS_H
 #define INSTRUCTIONS_H
+#if __cplusplus < 202002L
+namespace std {
+    constexpr bool is_constant_evaluated() noexcept { return false; }
+}
+#endif
 
 #include <bitset>
 #include <cstdint>

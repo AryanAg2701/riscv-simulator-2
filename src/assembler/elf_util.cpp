@@ -55,20 +55,43 @@ void generateElfFile(const AssembledProgram &program, const std::string &output_
 
   // Write `.data` section (raw binary data)
   for (const auto &data : program.data_buffer) {
-    if (std::holds_alternative<uint8_t>(data)) {
-      uint8_t value = std::get<uint8_t>(data);
-      elfFile.write(reinterpret_cast<const char *>(&value), sizeof(value));
-    } else if (std::holds_alternative<uint16_t>(data)) {
-      uint16_t value = std::get<uint16_t>(data);
-      elfFile.write(reinterpret_cast<const char *>(&value), sizeof(value));
-    } else if (std::holds_alternative<uint32_t>(data)) {
-      uint32_t value = std::get<uint32_t>(data);
-      elfFile.write(reinterpret_cast<const char *>(&value), sizeof(value));
-    } else if (std::holds_alternative<uint64_t>(data)) {
-      uint64_t value = std::get<uint64_t>(data);
-      elfFile.write(reinterpret_cast<const char *>(&value), sizeof(value));
+    switch (data.type) {
+        case AssembledProgram::DataType::U8: {
+            uint8_t value = data.value.u8;
+            elfFile.write(reinterpret_cast<const char*>(&value), sizeof(value));
+            break;
+        }
+        case AssembledProgram::DataType::U16: {
+            uint16_t value = data.value.u16;
+            elfFile.write(reinterpret_cast<const char*>(&value), sizeof(value));
+            break;
+        }
+        case AssembledProgram::DataType::U32: {
+            uint32_t value = data.value.u32;
+            elfFile.write(reinterpret_cast<const char*>(&value), sizeof(value));
+            break;
+        }
+        case AssembledProgram::DataType::U64: {
+            uint64_t value = data.value.u64;
+            elfFile.write(reinterpret_cast<const char*>(&value), sizeof(value));
+            break;
+        }
+        case AssembledProgram::DataType::F32: {
+            float value = data.value.f32;
+            elfFile.write(reinterpret_cast<const char*>(&value), sizeof(value));
+            break;
+        }
+        case AssembledProgram::DataType::F64: {
+            double value = data.value.f64;
+            elfFile.write(reinterpret_cast<const char*>(&value), sizeof(value));
+            break;
+        }
+        case AssembledProgram::DataType::STR: {
+            elfFile.write(data.s.data(), data.s.size());
+            break;
+        }
     }
-  }
+}
 
   // Write `.shstrtab` section
   elfFile.write(shstrtab.c_str(), shstrtab.size());
