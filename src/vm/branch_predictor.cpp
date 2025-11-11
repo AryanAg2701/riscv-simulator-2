@@ -1,6 +1,6 @@
 /**
  * @file branch_predictor.cpp
- * @brief Static Branch Predictor implementation
+ * @brief Branch Predictor implementation (Static Mode 5 & Dynamic Mode 6)
  */
 
 #include "vm/branch_predictor.h"
@@ -11,6 +11,11 @@ BranchPredictor::BranchPredictor(PredictionPolicy policy)
 }
 
 void BranchPredictor::SetPolicy(PredictionPolicy policy) {
+    // If switching away from dynamic mode, clear the prediction table
+    // to free memory and avoid stale predictions
+    if (policy_ == DYNAMIC_1BIT && policy != DYNAMIC_1BIT) {
+        prediction_table_.clear();
+    }
     policy_ = policy;
 }
 
@@ -70,21 +75,50 @@ int32_t BranchPredictor::ExtractJTypeImmediate(uint32_t instruction) {
     return imm;
 }
 
-bool BranchPredictor::Predict(uint32_t instruction, uint64_t pc) const {
-    (void)pc;  // Not used in static prediction
-    
+bool BranchPredictor::Predict(uint32_t instruction, uint64_t pc) {
     // Unconditional jumps are always taken
     if (IsUnconditionalJump(instruction)) {
         return true;
     }
     
-    // Conditional branches use static policy
+    // Conditional branches
     if (IsConditionalBranch(instruction)) {
-        return (policy_ == ALWAYS_TAKEN);
+        if (policy_ == DYNAMIC_1BIT) {
+            // Mode 6: Use dynamic 1-bit prediction from BPT
+            return GetDynamicPrediction(pc);
+        } else {
+            // Mode 5: Use static policy
+            return (policy_ == ALWAYS_TAKEN);
+        }
     }
     
     // Not a branch/jump
     return false;
+}
+
+bool BranchPredictor::GetDynamicPrediction(uint64_t pc) const {
+    // Look up prediction in BPT
+    auto it = prediction_table_.find(pc);
+    if (it != prediction_table_.end()) {
+        return it->second;  // Return stored prediction
+    }
+    
+    // New branch: default to not taken (false)
+    // Note: We don't insert here to avoid modifying const method
+    // The entry will be created on first Update() call
+    return false;
+}
+
+void BranchPredictor::Update(uint64_t pc, bool actual_taken) {
+    // Only update if in dynamic mode
+    if (policy_ != DYNAMIC_1BIT) {
+        return;
+    }
+    
+    // Update prediction table with actual outcome
+    // For 1-bit predictor: simply store the actual outcome
+    // This will be used as the prediction for the next time this branch is encountered
+    prediction_table_[pc] = actual_taken;
 }
 
 uint64_t BranchPredictor::CalculateBranchTarget(uint32_t instruction, uint64_t pc) const {
@@ -106,5 +140,9 @@ uint64_t BranchPredictor::CalculateBranchTarget(uint32_t instruction, uint64_t p
     }
     
     return pc + 4;  // Default: sequential
+}
+
+void BranchPredictor::Reset() {
+    prediction_table_.clear();
 }
 

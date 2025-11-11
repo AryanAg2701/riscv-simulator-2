@@ -44,6 +44,8 @@ RV5SVM::RV5SVM() : VmBase(), branch_predictor_(BranchPredictor::ALWAYS_NOT_TAKEN
   std::string policy_str = vm_config::config.getBranchPredictionPolicy();
   if (policy_str == "always_taken") {
     branch_predictor_.SetPolicy(BranchPredictor::ALWAYS_TAKEN);
+  } else if (policy_str == "dynamic_1bit") {
+    branch_predictor_.SetPolicy(BranchPredictor::DYNAMIC_1BIT);
   } else {
     branch_predictor_.SetPolicy(BranchPredictor::ALWAYS_NOT_TAKEN);
   }
@@ -169,6 +171,7 @@ void RV5SVM::Decode() {
       temp_id_ex.rd = rd;
       temp_id_ex.read_data1 = registers_.ReadGpr(rs1);
       temp_id_ex.read_data2 = registers_.ReadGpr(rs2);
+      temp_id_ex.valid = true;  // Mark as valid for forwarding unit
       
       // Get forwarding signals to see if we can forward
       auto [forwardA, forwardB] = forwarding_unit_.GetForwardingSignals(temp_id_ex, ex_mem, mem_wb);
@@ -176,19 +179,24 @@ void RV5SVM::Decode() {
       // Load-use hazards always need a stall (can't forward immediately)
       // Check mem_wb because when Decode() runs, MemoryAccess() has already
       // moved the load from ex_mem to mem_wb
+      // Note: Load-use hazard means load in MEM/WB, instruction in ID needs that register
+      // We need to stall because the load data becomes available at end of MEM stage,
+      // but we're checking in ID stage, so we need 1 cycle stall
       if (hazard_unit_.DetectLoadUseHazard(if_id, mem_wb)) {
         should_stall = true;
         stats_.data_hazards++;  // Load-use hazard
       } 
       // Check if there's a data hazard that forwarding can't resolve
+      // DetectDataHazard checks if_id (current instruction) against pipeline stages
       else if (hazard_unit_.DetectDataHazard(if_id, id_ex, ex_mem, mem_wb)) {
-        // If forwarding is available, no stall needed
+        // If forwarding is available for both operands, no stall needed
+        // Otherwise, we need to stall
         if (forwardA == ForwardingUnit::FORWARD_NONE && forwardB == ForwardingUnit::FORWARD_NONE) {
           // No forwarding available, must stall
           should_stall = true;
           stats_.data_hazards++;
         } else {
-          // Forwarding available - no stall needed
+          // Forwarding available for at least one operand - no stall needed
           should_stall = false;
         }
       } else {
@@ -222,7 +230,7 @@ void RV5SVM::Decode() {
   uint64_t read_data1 = registers_.ReadGpr(rs1);
   uint64_t read_data2 = registers_.ReadGpr(rs2);
   
-  // Mode 5: Static Branch Prediction
+  // Mode 5/6: Branch Prediction (Static or Dynamic)
   id_ex.branch_predicted = false;
   id_ex.branch_predicted_taken = false;
   id_ex.branch_predicted_target = 0;
@@ -372,7 +380,7 @@ void RV5SVM::Execute() {
         branch_taken = true;
       }
       
-      // Mode 5: Check for misprediction on unconditional jumps
+      // Mode 5/6: Check for misprediction on unconditional jumps
       if (branch_prediction_enabled_ && id_ex.branch_predicted) {
         // Unconditional jumps are always taken, so if we predicted not taken, it's a misprediction
         if (!id_ex.branch_predicted_taken || id_ex.branch_predicted_target != branch_target) {
@@ -389,6 +397,9 @@ void RV5SVM::Execute() {
         pipeline_flush_ = true;
         program_counter_ = branch_target;
       }
+      
+      // Note: Unconditional jumps (JAL/JALR) are always taken, so we don't update
+      // the dynamic predictor for them - they don't need prediction
     } else if (opcode == get_instr_encoding(Instruction::kbeq).opcode ||
                opcode == get_instr_encoding(Instruction::kbne).opcode ||
                opcode == get_instr_encoding(Instruction::kblt).opcode ||
@@ -411,7 +422,7 @@ void RV5SVM::Execute() {
         branch_target = id_ex.pc + 4;  // Sequential
       }
       
-      // Mode 5: Check for misprediction
+      // Mode 5/6: Check for misprediction
       if (branch_prediction_enabled_ && id_ex.branch_predicted) {
         bool predicted_correctly = (id_ex.branch_predicted_taken == branch_taken) &&
                                    (id_ex.branch_predicted_target == branch_target);
@@ -436,6 +447,10 @@ void RV5SVM::Execute() {
           pipeline_flush_ = false;
         }
       }
+      
+      // Mode 6: Update dynamic predictor with actual branch outcome
+      // Update() internally checks if policy is DYNAMIC_1BIT, so no need for extra check
+      branch_predictor_.Update(id_ex.pc, branch_taken);
     }
   }
   
@@ -762,5 +777,6 @@ void RV5SVM::Reset() {
   cycle_s_ = 0;
   instructions_retired_ = 0;
   stats_ = PipelineStats();  // Reset statistics
+  branch_predictor_.Reset();  // Clear prediction table (Mode 6)
 }
 

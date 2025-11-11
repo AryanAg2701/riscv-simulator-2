@@ -30,15 +30,21 @@ bool HazardDetectionUnit::DetectDataHazard(const IF_ID_Register& if_id,
     ExtractRegisters(instruction, id_rs1, id_rs2, id_rd);
 
     // Check EX/MEM stage
-    if (WillWriteRegister(ex_mem.reg_write, ex_mem.rd)) {
-        if (id_rs1 == ex_mem.rd || id_rs2 == ex_mem.rd) {
+    // Note: ex_mem.valid check is implicit - if not valid, reg_write will be false
+    if (ex_mem.valid && WillWriteRegister(ex_mem.reg_write, ex_mem.rd)) {
+        // Check if ID stage reads from the register that EX/MEM is writing to
+        // x0 (register 0) is always 0, so no hazard if reading from x0
+        if ((id_rs1 != 0 && id_rs1 == ex_mem.rd) || (id_rs2 != 0 && id_rs2 == ex_mem.rd)) {
             return true;
         }
     }
     
     // Check MEM/WB stage
-    if (WillWriteRegister(mem_wb.reg_write, mem_wb.rd)) {
-        if (id_rs1 == mem_wb.rd || id_rs2 == mem_wb.rd) {
+    // Note: mem_wb.valid check is implicit - if not valid, reg_write will be false
+    if (mem_wb.valid && WillWriteRegister(mem_wb.reg_write, mem_wb.rd)) {
+        // Check if ID stage reads from the register that MEM/WB is writing to
+        // x0 (register 0) is always 0, so no hazard if reading from x0
+        if ((id_rs1 != 0 && id_rs1 == mem_wb.rd) || (id_rs2 != 0 && id_rs2 == mem_wb.rd)) {
             return true;
         }
     }
@@ -63,6 +69,13 @@ bool HazardDetectionUnit::DetectLoadUseHazard(const IF_ID_Register& if_id,
     // So the load instruction that was in MEM stage is now in mem_wb.
     // We check mem_wb to see if it was a load instruction.
     // Load instructions have opcode 0b0000011
+    //
+    // Note: Load-use hazard requires a stall because:
+    // - Load data becomes available at the END of MEM stage
+    // - But we're checking in ID stage (before EX stage)
+    // - Even with forwarding, we can't forward from EX/MEM for loads (data not ready)
+    // - We can forward from MEM/WB, but that's the NEXT cycle
+    // - So we need 1 cycle stall to let the load complete
     uint32_t mem_wb_instruction = mem_wb.instruction;
     uint8_t opcode = mem_wb_instruction & 0x7F;  // Lower 7 bits
     
@@ -76,7 +89,8 @@ bool HazardDetectionUnit::DetectLoadUseHazard(const IF_ID_Register& if_id,
         ExtractRegisters(instruction, id_rs1, id_rs2, id_rd);
         
         // Check if ID stage reads from the register that LOAD is writing to
-        if (id_rs1 == mem_wb.rd || id_rs2 == mem_wb.rd) {
+        // Also check that we're not reading from x0 (register 0, always 0)
+        if ((id_rs1 != 0 && id_rs1 == mem_wb.rd) || (id_rs2 != 0 && id_rs2 == mem_wb.rd)) {
             return true; 
         }
     }

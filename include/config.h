@@ -41,8 +41,8 @@ struct VmConfig {
   
   bool hazard_detection = false;  // Mode 3: Hazard detection with stalls
   bool forwarding = false;         // Mode 4: Forwarding to minimize stalls
-  bool branch_prediction = false; // Mode 5: Static branch prediction
-  std::string branch_prediction_policy = "always_not_taken"; // "always_taken" or "always_not_taken"
+  bool branch_prediction = false; // Mode 5/6: Branch prediction (static or dynamic)
+  std::string branch_prediction_policy = "always_not_taken"; // "always_taken", "always_not_taken", or "dynamic_1bit"
 
   void setVmType(const VmTypes &type) {
     vm_type = type;
@@ -196,10 +196,10 @@ struct VmConfig {
           throw std::invalid_argument("Unknown value: " + value);
         }
       } else if (key == "branch_prediction_policy") {
-        if (value == "always_taken" || value == "always_not_taken") {
+        if (value == "always_taken" || value == "always_not_taken" || value == "dynamic_1bit") {
           setBranchPredictionPolicy(value);
         } else {
-          throw std::invalid_argument("Invalid branch_prediction_policy: " + value + " (must be 'always_taken' or 'always_not_taken')");
+          throw std::invalid_argument("Invalid branch_prediction_policy: " + value + " (must be 'always_taken', 'always_not_taken', or 'dynamic_1bit')");
         }
       } else {
         throw std::invalid_argument("Unknown key: " + key);
