@@ -24,13 +24,7 @@ public:
     /**
      * @brief Forwarding control signals for ALU operands
      */
-    enum ForwardA {
-        FORWARD_NONE,      ///< No forwarding, use register file value
-        FORWARD_EX_MEM,    ///< Forward from EX/MEM stage
-        FORWARD_MEM_WB     ///< Forward from MEM/WB stage
-    };
-    
-    enum ForwardB {
+    enum ForwardSignal {
         FORWARD_NONE,      ///< No forwarding, use register file value
         FORWARD_EX_MEM,    ///< Forward from EX/MEM stage
         FORWARD_MEM_WB     ///< Forward from MEM/WB stage
@@ -44,9 +38,9 @@ public:
      * @param id_ex ID/EX pipeline register
      * @param ex_mem EX/MEM pipeline register
      * @param mem_wb MEM/WB pipeline register
-     * @return Pair of (ForwardA, ForwardB) signals
+     * @return Pair of (ForwardSignal, ForwardSignal) signals for (rs1, rs2)
      */
-    std::pair<ForwardA, ForwardB> GetForwardingSignals(
+    std::pair<ForwardSignal, ForwardSignal> GetForwardingSignals(
         const ID_EX_Register& id_ex,
         const EX_MEM_Register& ex_mem,
         const MEM_WB_Register& mem_wb) const;
@@ -61,7 +55,7 @@ public:
      * @return Forwarded value for rs1
      */
     uint64_t GetForwardedValueA(
-        ForwardA forward,
+        ForwardSignal forward,
         const ID_EX_Register& id_ex,
         const EX_MEM_Register& ex_mem,
         const MEM_WB_Register& mem_wb) const;
@@ -76,7 +70,7 @@ public:
      * @return Forwarded value for rs2
      */
     uint64_t GetForwardedValueB(
-        ForwardB forward,
+        ForwardSignal forward,
         const ID_EX_Register& id_ex,
         const EX_MEM_Register& ex_mem,
         const MEM_WB_Register& mem_wb) const;
@@ -91,7 +85,7 @@ public:
      * @return Forwarded value for store data
      */
     uint64_t GetForwardedStoreData(
-        ForwardB forward,
+        ForwardSignal forward,
         const ID_EX_Register& id_ex,
         const EX_MEM_Register& ex_mem,
         const MEM_WB_Register& mem_wb) const;

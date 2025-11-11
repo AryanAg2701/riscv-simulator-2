@@ -11,14 +11,14 @@ bool ForwardingUnit::WillWriteRegister(bool reg_write, uint8_t rd) {
     return reg_write && (rd != 0);
 }
 
-std::pair<ForwardingUnit::ForwardA, ForwardingUnit::ForwardB> 
+std::pair<ForwardingUnit::ForwardSignal, ForwardingUnit::ForwardSignal> 
 ForwardingUnit::GetForwardingSignals(
     const ID_EX_Register& id_ex,
     const EX_MEM_Register& ex_mem,
     const MEM_WB_Register& mem_wb) const {
     
-    ForwardA forwardA = FORWARD_NONE;
-    ForwardB forwardB = FORWARD_NONE;
+    ForwardSignal forwardA = FORWARD_NONE;
+    ForwardSignal forwardB = FORWARD_NONE;
     
     // Check forwarding for rs1 (ForwardA)
     // Priority: EX/MEM > MEM/WB
@@ -66,7 +66,7 @@ ForwardingUnit::GetForwardingSignals(
 }
 
 uint64_t ForwardingUnit::GetForwardedValueA(
-    ForwardA forward,
+    ForwardSignal forward,
     const ID_EX_Register& id_ex,
     const EX_MEM_Register& ex_mem,
     const MEM_WB_Register& mem_wb) const {
@@ -83,7 +83,7 @@ uint64_t ForwardingUnit::GetForwardedValueA(
 }
 
 uint64_t ForwardingUnit::GetForwardedValueB(
-    ForwardB forward,
+    ForwardSignal forward,
     const ID_EX_Register& id_ex,
     const EX_MEM_Register& ex_mem,
     const MEM_WB_Register& mem_wb) const {
@@ -100,7 +100,7 @@ uint64_t ForwardingUnit::GetForwardedValueB(
 }
 
 uint64_t ForwardingUnit::GetForwardedStoreData(
-    ForwardB forward,
+    ForwardSignal forward,
     const ID_EX_Register& id_ex,
     const EX_MEM_Register& ex_mem,
     const MEM_WB_Register& mem_wb) const {
