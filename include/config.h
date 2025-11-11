@@ -41,6 +41,8 @@ struct VmConfig {
   
   bool hazard_detection = false;  // Mode 3: Hazard detection with stalls
   bool forwarding = false;         // Mode 4: Forwarding to minimize stalls
+  bool branch_prediction = false; // Mode 5: Static branch prediction
+  std::string branch_prediction_policy = "always_not_taken"; // "always_taken" or "always_not_taken"
 
   void setVmType(const VmTypes &type) {
     vm_type = type;
@@ -138,6 +140,22 @@ struct VmConfig {
   bool getForwarding() const {
     return forwarding;
   }
+  
+  void setBranchPrediction(bool enabled) {
+    branch_prediction = enabled;
+  }
+  
+  bool getBranchPrediction() const {
+    return branch_prediction;
+  }
+  
+  void setBranchPredictionPolicy(const std::string& policy) {
+    branch_prediction_policy = policy;
+  }
+  
+  std::string getBranchPredictionPolicy() const {
+    return branch_prediction_policy;
+  }
 
   void modifyConfig(const std::string &section, const std::string &key, const std::string &value) {
     if (section == "Execution") {
@@ -169,9 +187,21 @@ struct VmConfig {
         } else {
           throw std::invalid_argument("Unknown value: " + value);
         }
-      }
-      
-      else {
+      } else if (key == "branch_prediction") {
+        if (value == "true") {
+          setBranchPrediction(true);
+        } else if (value == "false") {
+          setBranchPrediction(false);
+        } else {
+          throw std::invalid_argument("Unknown value: " + value);
+        }
+      } else if (key == "branch_prediction_policy") {
+        if (value == "always_taken" || value == "always_not_taken") {
+          setBranchPredictionPolicy(value);
+        } else {
+          throw std::invalid_argument("Invalid branch_prediction_policy: " + value + " (must be 'always_taken' or 'always_not_taken')");
+        }
+      } else {
         throw std::invalid_argument("Unknown key: " + key);
       }
     } else if (section == "Memory") {

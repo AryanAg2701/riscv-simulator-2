@@ -1,8 +1,8 @@
-\hypertarget{classalu_1_1Alu}{}\doxysection{alu\+::Alu Class Reference}
-\label{classalu_1_1Alu}\index{alu::Alu@{alu::Alu}}
+\hypertarget{classALU_1_1ALU}{}\doxysection{alu\+::alu Class Reference}
+\label{classALU_1_1ALU}\index{alu::alu@{alu::alu}}
 
 
-The alu class is responsible for performing arithmetic and logic operations.  
+The \mbox{\hyperlink{classALU_1_1ALU}{alu}} class is responsible for performing arithmetic and logic operations.
 
 
 
@@ -12,68 +12,43 @@ The alu class is responsible for performing arithmetic and logic operations.
 \doxysubsection*{Public Member Functions}
 \begin{DoxyCompactItemize}
 \item 
-\mbox{\hyperlink{classalu_1_1Alu_ad12647f1d4dbfd04498727e4e44877b2}{Alu}} ()=default
+\mbox{\hyperlink{classALU_1_1ALU_a88f78717c9e84775b753f2937e8a0a84}{alu}} ()=default
 \item 
-\mbox{\hyperlink{classalu_1_1Alu_a258f8def8433b1de5b5ae2a88037de5e}{$\sim$\+Alu}} ()=default
+\mbox{\hyperlink{classALU_1_1ALU_a1b4656ada86660efa5812d26651387fc}{$\sim$\+alu}} ()=default
 \item 
-void \mbox{\hyperlink{classalu_1_1Alu_a37bb2aac9cb2c8ae05ceee0d6404e5cc}{set\+Flags}} (bool carry, bool zero, bool negative, bool overflow)
-\end{DoxyCompactItemize}
-\doxysubsection*{Static Public Member Functions}
-\begin{DoxyCompactItemize}
-\item 
-static std\+::pair$<$ uint64\+\_\+t, bool $>$ \mbox{\hyperlink{classalu_1_1Alu_aa545d94b7e58471fb4d66af9da1ebefe}{execute}} (\mbox{\hyperlink{namespacealu_a168383e119a615fcfa97506988a23985}{Alu\+Op}} op, uint64\+\_\+t a, uint64\+\_\+t b)
-\begin{DoxyCompactList}\small\item\em Executes the given alu operation. \end{DoxyCompactList}\item 
-static std\+::pair$<$ uint64\+\_\+t, uint8\+\_\+t $>$ \mbox{\hyperlink{classalu_1_1Alu_a0c8e729c4658fa7de36a9220bfbef713}{fpexecute}} (\mbox{\hyperlink{namespacealu_a168383e119a615fcfa97506988a23985}{Alu\+Op}} op, uint64\+\_\+t ina, uint64\+\_\+t inb, uint64\+\_\+t inc, uint8\+\_\+t rm)
-\item 
-static std\+::pair$<$ uint64\+\_\+t, bool $>$ \mbox{\hyperlink{classalu_1_1Alu_a79516ee000db50fd48dd1a78981a78c4}{dfpexecute}} (\mbox{\hyperlink{namespacealu_a168383e119a615fcfa97506988a23985}{Alu\+Op}} op, uint64\+\_\+t ina, uint64\+\_\+t inb, uint64\+\_\+t inc, uint8\+\_\+t rm)
-\end{DoxyCompactItemize}
-\doxysubsection*{Public Attributes}
-\begin{DoxyCompactItemize}
-\item 
-bool \mbox{\hyperlink{classalu_1_1Alu_a7ec7aef26212e3f4fe92edd4e32e934a}{carry\+\_\+}} = false
-\begin{DoxyCompactList}\small\item\em Carry flag. \end{DoxyCompactList}\item 
-bool \mbox{\hyperlink{classalu_1_1Alu_a4c2f6bd6ce4f7988c5c5af12c2fa69db}{zero\+\_\+}} = false
-\begin{DoxyCompactList}\small\item\em Zero flag. \end{DoxyCompactList}\item 
-bool \mbox{\hyperlink{classalu_1_1Alu_aaaa90d3ed3bdadb61ba92da792e37dd2}{negative\+\_\+}} = false
-\begin{DoxyCompactList}\small\item\em Negative flag. \end{DoxyCompactList}\item 
-bool \mbox{\hyperlink{classalu_1_1Alu_ac6f7ae77babe5d74f8061cfff9b2dbfd}{overflow\+\_\+}} = false
-\begin{DoxyCompactList}\small\item\em Overflow flag. \end{DoxyCompactList}\end{DoxyCompactItemize}
+{\footnotesize template$<$typename T $>$ }\\constexpr std\+::pair$<$ T, bool $>$ \mbox{\hyperlink{classALU_1_1ALU_af5bf187db686489b0165cff3619e036f}{execute}} (\mbox{\hyperlink{namespaceALU_a92e727ac8b6977ab7108be9fe861f119}{AluOp}} op, T a, T b) const
+\begin{DoxyCompactList}\small\item\em Executes the given \mbox{\hyperlink{classALU_1_1ALU}{alu}} operation. \end{DoxyCompactList}\end{DoxyCompactItemize}
 
 
 \doxysubsection{Detailed Description}
-The alu class is responsible for performing arithmetic and logic operations. 
+The \mbox{\hyperlink{classALU_1_1ALU}{alu}} class is responsible for performing arithmetic and logic operations.
 
 \doxysubsection{Constructor \& Destructor Documentation}
-\mbox{\Hypertarget{classalu_1_1Alu_ad12647f1d4dbfd04498727e4e44877b2}\label{classalu_1_1Alu_ad12647f1d4dbfd04498727e4e44877b2}} 
-\index{alu::Alu@{alu::Alu}!Alu@{Alu}}
-\index{Alu@{Alu}!alu::Alu@{alu::Alu}}
-\doxysubsubsection{\texorpdfstring{Alu()}{Alu()}}
-{\footnotesize\ttfamily alu\+::\+Alu\+::\+Alu (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [default]}}
+\mbox{\Hypertarget{classALU_1_1ALU_a88f78717c9e84775b753f2937e8a0a84}\label{classALU_1_1ALU_a88f78717c9e84775b753f2937e8a0a84}} 
+\index{alu::alu@{alu::alu}!alu@{alu}}
+\index{alu@{alu}!alu::alu@{alu::alu}}
+\doxysubsubsection{\texorpdfstring{alu()}{alu()}}
+{\footnotesize\ttfamily alu\+::\+alu\+::\+alu (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [default]}}
 
-\mbox{\Hypertarget{classalu_1_1Alu_a258f8def8433b1de5b5ae2a88037de5e}\label{classalu_1_1Alu_a258f8def8433b1de5b5ae2a88037de5e}} 
-\index{alu::Alu@{alu::Alu}!````~Alu@{$\sim$Alu}}
-\index{````~Alu@{$\sim$Alu}!alu::Alu@{alu::Alu}}
-\doxysubsubsection{\texorpdfstring{$\sim$Alu()}{~Alu()}}
-{\footnotesize\ttfamily alu\+::\+Alu\+::$\sim$\+Alu (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [default]}}
+\mbox{\Hypertarget{classALU_1_1ALU_a1b4656ada86660efa5812d26651387fc}\label{classALU_1_1ALU_a1b4656ada86660efa5812d26651387fc}} 
+\index{alu::alu@{alu::alu}!````~alu@{$\sim$alu}}
+\index{````~alu@{$\sim$alu}!alu::alu@{alu::alu}}
+\doxysubsubsection{\texorpdfstring{$\sim$alu()}{~alu()}}
+{\footnotesize\ttfamily alu\+::\+alu\+::$\sim$\+alu (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [default]}}
 
 
 
 \doxysubsection{Member Function Documentation}
-\mbox{\Hypertarget{classalu_1_1Alu_a79516ee000db50fd48dd1a78981a78c4}\label{classalu_1_1Alu_a79516ee000db50fd48dd1a78981a78c4}} 
-\index{alu::Alu@{alu::Alu}!dfpexecute@{dfpexecute}}
-\index{dfpexecute@{dfpexecute}!alu::Alu@{alu::Alu}}
-\doxysubsubsection{\texorpdfstring{dfpexecute()}{dfpexecute()}}
-{\footnotesize\ttfamily std\+::pair$<$ uint64\+\_\+t, bool $>$ alu\+::\+Alu\+::dfpexecute (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{namespacealu_a168383e119a615fcfa97506988a23985}{Alu\+Op}}}]{op,  }\item[{uint64\+\_\+t}]{ina,  }\item[{uint64\+\_\+t}]{inb,  }\item[{uint64\+\_\+t}]{inc,  }\item[{uint8\+\_\+t}]{rm }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
-
-\mbox{\Hypertarget{classalu_1_1Alu_aa545d94b7e58471fb4d66af9da1ebefe}\label{classalu_1_1Alu_aa545d94b7e58471fb4d66af9da1ebefe}} 
-\index{alu::Alu@{alu::Alu}!execute@{execute}}
-\index{execute@{execute}!alu::Alu@{alu::Alu}}
+\mbox{\Hypertarget{classALU_1_1ALU_af5bf187db686489b0165cff3619e036f}\label{classALU_1_1ALU_af5bf187db686489b0165cff3619e036f}} 
+\index{alu::alu@{alu::alu}!execute@{execute}}
+\index{execute@{execute}!alu::alu@{alu::alu}}
 \doxysubsubsection{\texorpdfstring{execute()}{execute()}}
-{\footnotesize\ttfamily std\+::pair$<$ uint64\+\_\+t, bool $>$ alu\+::\+Alu\+::execute (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{namespacealu_a168383e119a615fcfa97506988a23985}{Alu\+Op}}}]{op,  }\item[{uint64\+\_\+t}]{a,  }\item[{uint64\+\_\+t}]{b }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+{\footnotesize\ttfamily template$<$typename T $>$ \\
+constexpr std\+::pair$<$T, bool$>$ alu\+::\+alu\+::Execute (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{namespaceALU_a92e727ac8b6977ab7108be9fe861f119}{AluOp}}}]{op,  }\item[{T}]{a,  }\item[{T}]{b }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [constexpr]}}
 
 
 
-Executes the given alu operation. 
+Executes the given \mbox{\hyperlink{classALU_1_1ALU}{alu}} operation.
 
 
 \begin{DoxyTemplParams}{Template Parameters}
@@ -82,7 +57,7 @@ Executes the given alu operation.
 \end{DoxyTemplParams}
 
 \begin{DoxyParams}{Parameters}
-{\em op} & The alu operation. \\
+{\em op} & The \mbox{\hyperlink{classALU_1_1ALU}{alu}} operation. \\
 \hline
 {\em a} & First operand. \\
 \hline
@@ -92,64 +67,8 @@ Executes the given alu operation.
 \begin{DoxyReturn}{Returns}
 A pair (result, overflow\+\_\+flag). 
 \end{DoxyReturn}
-\mbox{\Hypertarget{classalu_1_1Alu_a0c8e729c4658fa7de36a9220bfbef713}\label{classalu_1_1Alu_a0c8e729c4658fa7de36a9220bfbef713}} 
-\index{alu::Alu@{alu::Alu}!fpexecute@{fpexecute}}
-\index{fpexecute@{fpexecute}!alu::Alu@{alu::Alu}}
-\doxysubsubsection{\texorpdfstring{fpexecute()}{fpexecute()}}
-{\footnotesize\ttfamily std\+::pair$<$ uint64\+\_\+t, uint8\+\_\+t $>$ alu\+::\+Alu\+::fpexecute (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{namespacealu_a168383e119a615fcfa97506988a23985}{Alu\+Op}}}]{op,  }\item[{uint64\+\_\+t}]{ina,  }\item[{uint64\+\_\+t}]{inb,  }\item[{uint64\+\_\+t}]{inc,  }\item[{uint8\+\_\+t}]{rm }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
-
-\mbox{\Hypertarget{classalu_1_1Alu_a37bb2aac9cb2c8ae05ceee0d6404e5cc}\label{classalu_1_1Alu_a37bb2aac9cb2c8ae05ceee0d6404e5cc}} 
-\index{alu::Alu@{alu::Alu}!setFlags@{setFlags}}
-\index{setFlags@{setFlags}!alu::Alu@{alu::Alu}}
-\doxysubsubsection{\texorpdfstring{setFlags()}{setFlags()}}
-{\footnotesize\ttfamily void alu\+::\+Alu\+::set\+Flags (\begin{DoxyParamCaption}\item[{bool}]{carry,  }\item[{bool}]{zero,  }\item[{bool}]{negative,  }\item[{bool}]{overflow }\end{DoxyParamCaption})}
 
 
-
-\doxysubsection{Member Data Documentation}
-\mbox{\Hypertarget{classalu_1_1Alu_a7ec7aef26212e3f4fe92edd4e32e934a}\label{classalu_1_1Alu_a7ec7aef26212e3f4fe92edd4e32e934a}} 
-\index{alu::Alu@{alu::Alu}!carry\_@{carry\_}}
-\index{carry\_@{carry\_}!alu::Alu@{alu::Alu}}
-\doxysubsubsection{\texorpdfstring{carry\_}{carry\_}}
-{\footnotesize\ttfamily bool alu\+::\+Alu\+::carry\+\_\+ = false}
-
-
-
-Carry flag. 
-
-\mbox{\Hypertarget{classalu_1_1Alu_aaaa90d3ed3bdadb61ba92da792e37dd2}\label{classalu_1_1Alu_aaaa90d3ed3bdadb61ba92da792e37dd2}} 
-\index{alu::Alu@{alu::Alu}!negative\_@{negative\_}}
-\index{negative\_@{negative\_}!alu::Alu@{alu::Alu}}
-\doxysubsubsection{\texorpdfstring{negative\_}{negative\_}}
-{\footnotesize\ttfamily bool alu\+::\+Alu\+::negative\+\_\+ = false}
-
-
-
-Negative flag. 
-
-\mbox{\Hypertarget{classalu_1_1Alu_ac6f7ae77babe5d74f8061cfff9b2dbfd}\label{classalu_1_1Alu_ac6f7ae77babe5d74f8061cfff9b2dbfd}} 
-\index{alu::Alu@{alu::Alu}!overflow\_@{overflow\_}}
-\index{overflow\_@{overflow\_}!alu::Alu@{alu::Alu}}
-\doxysubsubsection{\texorpdfstring{overflow\_}{overflow\_}}
-{\footnotesize\ttfamily bool alu\+::\+Alu\+::overflow\+\_\+ = false}
-
-
-
-Overflow flag. 
-
-\mbox{\Hypertarget{classalu_1_1Alu_a4c2f6bd6ce4f7988c5c5af12c2fa69db}\label{classalu_1_1Alu_a4c2f6bd6ce4f7988c5c5af12c2fa69db}} 
-\index{alu::Alu@{alu::Alu}!zero\_@{zero\_}}
-\index{zero\_@{zero\_}!alu::Alu@{alu::Alu}}
-\doxysubsubsection{\texorpdfstring{zero\_}{zero\_}}
-{\footnotesize\ttfamily bool alu\+::\+Alu\+::zero\+\_\+ = false}
-
-
-
-Zero flag. 
-
-
-
-The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
 \item 
-include/vm/\mbox{\hyperlink{alu_8h}{alu.\+h}}\item 
-src/vm/\mbox{\hyperlink{alu_8cpp}{alu.\+cpp}}\end{DoxyCompactItemize}
+src/vm/\mbox{\hyperlink{alu_8h}{alu.\+h}}\end{DoxyCompactItemize}

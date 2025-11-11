@@ -49,6 +49,11 @@ struct ID_EX_Register {
     uint32_t instruction = 0;
     bool valid = false;
     
+    // Branch prediction fields (Mode 5)
+    bool branch_predicted = false;
+    bool branch_predicted_taken = false;
+    uint64_t branch_predicted_target = 0;
+    
     void Clear() {
         reg_write = mem_to_reg = branch = mem_read = mem_write = alu_src = false;
         alu_op = 0;
@@ -57,6 +62,9 @@ struct ID_EX_Register {
         rs1 = rs2 = rd = 0;
         instruction = 0;
         valid = false;
+        branch_predicted = false;
+        branch_predicted_taken = false;
+        branch_predicted_target = 0;
     }
 };
 
@@ -81,6 +89,9 @@ struct EX_MEM_Register {
     uint32_t instruction = 0;
     bool valid = false;
     
+    // Branch prediction fields (Mode 5)
+    bool branch_mispredicted = false;
+    
     void Clear() {
         reg_write = mem_to_reg = mem_read = mem_write = false;
         branch_target = 0;
@@ -90,6 +101,7 @@ struct EX_MEM_Register {
         rd = 0;
         instruction = 0;
         valid = false;
+        branch_mispredicted = false;
     }
 };
 

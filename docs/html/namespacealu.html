@@ -63,8 +63,7 @@ $(function() {
 <div class="header">
   <div class="summary">
 <a href="#nested-classes">Classes</a> &#124;
-<a href="#enum-members">Enumerations</a> &#124;
-<a href="#func-members">Functions</a>  </div>
+<a href="#enum-members">Enumerations</a>  </div>
   <div class="headertitle">
 <div class="title">alu Namespace Reference</div>  </div>
 </div><!--header-->
@@ -72,135 +71,39 @@ $(function() {
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="nested-classes"></a>
 Classes</h2></td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classalu_1_1Alu.html">Alu</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">The alu class is responsible for performing arithmetic and logic operations.  <a href="classalu_1_1Alu.html#details">More...</a><br /></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classALU_1_1ALU.html">alu</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">The <a class="el" href="classALU_1_1ALU.html" title="The alu class is responsible for performing arithmetic and logic operations.">alu</a> class is responsible for performing arithmetic and logic operations.  <a href="classALU_1_1ALU.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="enum-members"></a>
 Enumerations</h2></td></tr>
-<tr class="memitem:a168383e119a615fcfa97506988a23985"><td class="memItemLeft" align="right" valign="top">enum class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacealu.html#a168383e119a615fcfa97506988a23985">AluOp</a> { <br />
-&#160;&#160;<a class="el" href="namespacealu.html#a168383e119a615fcfa97506988a23985a35c3ace1970663a16e5c65baa5941b13">kNone</a>
-, <a class="el" href="namespacealu.html#a168383e119a615fcfa97506988a23985aa9130c0c8cfb5cbb3b70c98f89d3d96c">kAdd</a>
-, <a class="el" href="namespacealu.html#a168383e119a615fcfa97506988a23985a5814d472434d44f9306c1933e39dc593">kAddw</a>
-, <a class="el" href="namespacealu.html#a168383e119a615fcfa97506988a23985af66ca3c8e49231635fce6e56fadbc791">kSub</a>
+<tr class="memitem:a92e727ac8b6977ab7108be9fe861f119"><td class="memItemLeft" align="right" valign="top">enum class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceALU.html#a92e727ac8b6977ab7108be9fe861f119">AluOp</a> { <br />
+&#160;&#160;<a class="el" href="namespaceALU.html#a92e727ac8b6977ab7108be9fe861f119ab50339a10e1de285ac99d4c3990b8693">kNone</a>
+, <a class="el" href="namespaceALU.html#a92e727ac8b6977ab7108be9fe861f119a9eeb52badb613229884838847294b90d">kAdd</a>
+, <a class="el" href="namespaceALU.html#a92e727ac8b6977ab7108be9fe861f119a241dd841abade20fcb27b8a9f494e1eb">kSub</a>
+, <a class="el" href="namespaceALU.html#a92e727ac8b6977ab7108be9fe861f119a2cdf52a55876063ec93b7d18bc741f6c">kMul</a>
 , <br />
-&#160;&#160;<a class="el" href="namespacealu.html#a168383e119a615fcfa97506988a23985a05f1f16b27cc2bded8034f1a173b4f2b">kSubw</a>
-, <a class="el" href="namespacealu.html#a168383e119a615fcfa97506988a23985a622e5142de51765da329dba31d104724">kMul</a>
-, <a class="el" href="namespacealu.html#a168383e119a615fcfa97506988a23985a5d7bd99c5826f29e34f02402beb6f960">kMulh</a>
-, <a class="el" href="namespacealu.html#a168383e119a615fcfa97506988a23985a0d06601dce8967314cc1aa0e8b2226fc">kMulhsu</a>
+&#160;&#160;<a class="el" href="namespaceALU.html#a92e727ac8b6977ab7108be9fe861f119a29bbf66f7f8529ec47e394fb5a36c646">kDiv</a>
+, <a class="el" href="namespaceALU.html#a92e727ac8b6977ab7108be9fe861f119a8c629acb10e8fd70ee1b4c966ec76c36">kDivu</a>
+, <a class="el" href="namespaceALU.html#a92e727ac8b6977ab7108be9fe861f119af5b7d8538da68fa55ace6e8f83a2378c">kRem</a>
+, <a class="el" href="namespaceALU.html#a92e727ac8b6977ab7108be9fe861f119abc4402413138d0e1daac58067426544f">kRemu</a>
 , <br />
-&#160;&#160;<a class="el" href="namespacealu.html#a168383e119a615fcfa97506988a23985a57fefefa33d3579acd21fe9f12519a8c">kMulhu</a>
-, <a class="el" href="namespacealu.html#a168383e119a615fcfa97506988a23985ade1206f006af1123de14b808ed906d8b">kMulw</a>
-, <a class="el" href="namespacealu.html#a168383e119a615fcfa97506988a23985a62ff1bc26aac2154f97b79366b7a8de4">kDiv</a>
-, <a class="el" href="namespacealu.html#a168383e119a615fcfa97506988a23985a6ad359e329ccf0d3fa3c9bef43a3cb43">kDivw</a>
+&#160;&#160;<a class="el" href="namespaceALU.html#a92e727ac8b6977ab7108be9fe861f119a558ffc8f5770d8e4f95f51d822685532">kAnd</a>
+, <a class="el" href="namespaceALU.html#a92e727ac8b6977ab7108be9fe861f119a1d00e7dce692e8dc3f6877f035e3a616">kOr</a>
+, <a class="el" href="namespaceALU.html#a92e727ac8b6977ab7108be9fe861f119a97675eb3f268048604dc5155511a2a4d">kXor</a>
+, <a class="el" href="namespaceALU.html#a92e727ac8b6977ab7108be9fe861f119aae2ecfbd95d475ddf08876080d57e3d9">kSll</a>
 , <br />
-&#160;&#160;<a class="el" href="namespacealu.html#a168383e119a615fcfa97506988a23985aa1613f20d7277b56317b97526f5ddd59">kDivu</a>
-, <a class="el" href="namespacealu.html#a168383e119a615fcfa97506988a23985a632d0ecd17465c4b5c5735599856805e">kDivuw</a>
-, <a class="el" href="namespacealu.html#a168383e119a615fcfa97506988a23985ad2d8f8a76441cf7839e3b6c354fa3618">kRem</a>
-, <a class="el" href="namespacealu.html#a168383e119a615fcfa97506988a23985a604f0e074a5c731cc24cfceecc9041a7">kRemw</a>
-, <br />
-&#160;&#160;<a class="el" href="namespacealu.html#a168383e119a615fcfa97506988a23985ae414eacac092904aeb4235f9eeeadb21">kRemu</a>
-, <a class="el" href="namespacealu.html#a168383e119a615fcfa97506988a23985ac4c5e088c1e06b9f2d33eb0cddcacb38">kRemuw</a>
-, <a class="el" href="namespacealu.html#a168383e119a615fcfa97506988a23985a5c61096a81b3e5cbbde4f43b14c8f0d9">kAnd</a>
-, <a class="el" href="namespacealu.html#a168383e119a615fcfa97506988a23985a5b7e85783b7acdff953371531833aac4">kOr</a>
-, <br />
-&#160;&#160;<a class="el" href="namespacealu.html#a168383e119a615fcfa97506988a23985ac045af4c7aaf252049c84e9c06019d6e">kXor</a>
-, <a class="el" href="namespacealu.html#a168383e119a615fcfa97506988a23985a31b2dcb97466607a23d8c7c9d318a345">kSll</a>
-, <a class="el" href="namespacealu.html#a168383e119a615fcfa97506988a23985ab64399991ffdcb426ce1cc67d65d1632">kSllw</a>
-, <a class="el" href="namespacealu.html#a168383e119a615fcfa97506988a23985a946650cdc67e9fee1826aec76398702e">kSrl</a>
-, <br />
-&#160;&#160;<a class="el" href="namespacealu.html#a168383e119a615fcfa97506988a23985a8fbc3cd28d2db1ff376c4a9c84f65ccc">kSrlw</a>
-, <a class="el" href="namespacealu.html#a168383e119a615fcfa97506988a23985a6d7ccf5f1a560a20b7721f479d85fced">kSra</a>
-, <a class="el" href="namespacealu.html#a168383e119a615fcfa97506988a23985a0b5f4ddc9dad7457b794921959e6fd81">kSraw</a>
-, <a class="el" href="namespacealu.html#a168383e119a615fcfa97506988a23985a2da53de8e3b9cac5a896c0ad31431b74">kSlt</a>
-, <br />
-&#160;&#160;<a class="el" href="namespacealu.html#a168383e119a615fcfa97506988a23985a7114d2dd322d0c6fa4dfd7fdd8410633">kSltu</a>
-, <a class="el" href="namespacealu.html#a168383e119a615fcfa97506988a23985aba88cf4ea33e830c82290b53346cf700">kFmadd_s</a>
-, <a class="el" href="namespacealu.html#a168383e119a615fcfa97506988a23985a4e806301e4079ae09e8cee2adb484304">kFmsub_s</a>
-, <a class="el" href="namespacealu.html#a168383e119a615fcfa97506988a23985a61fc9a2486a3f32a5edd84e103a0d3b2">kFnmadd_s</a>
-, <br />
-&#160;&#160;<a class="el" href="namespacealu.html#a168383e119a615fcfa97506988a23985a4b5adb79a5478a8a1aa1b598bfdda8eb">kFnmsub_s</a>
-, <a class="el" href="namespacealu.html#a168383e119a615fcfa97506988a23985ac107de66ca007fc3fa224d05986cfa08">FADD_S</a>
-, <a class="el" href="namespacealu.html#a168383e119a615fcfa97506988a23985af9f23b93c8a781a0fc9d7516c14a5955">FSUB_S</a>
-, <a class="el" href="namespacealu.html#a168383e119a615fcfa97506988a23985a4e1f4b5e737c8b5bbebc5825beed2f56">FMUL_S</a>
-, <br />
-&#160;&#160;<a class="el" href="namespacealu.html#a168383e119a615fcfa97506988a23985a66ab6345455dd20bb88bb282a53e2eb5">FDIV_S</a>
-, <a class="el" href="namespacealu.html#a168383e119a615fcfa97506988a23985a606f8aedd399fd2a05dd2a6536152f09">FSQRT_S</a>
-, <a class="el" href="namespacealu.html#a168383e119a615fcfa97506988a23985a46552ee28b754889304793b799c7b80a">FSGNJ_S</a>
-, <a class="el" href="namespacealu.html#a168383e119a615fcfa97506988a23985a865c8c81a8ab028a1ffc7c12423e8fa1">FSGNJN_S</a>
-, <br />
-&#160;&#160;<a class="el" href="namespacealu.html#a168383e119a615fcfa97506988a23985aefd9f447c49655f44e48651e510792cf">FSGNJX_S</a>
-, <a class="el" href="namespacealu.html#a168383e119a615fcfa97506988a23985a2c17e161c8f8dd7c6f000dcf1e8761ce">FMIN_S</a>
-, <a class="el" href="namespacealu.html#a168383e119a615fcfa97506988a23985a0a9ecfa347fcbe8f992c50acbd0e9a81">FMAX_S</a>
-, <a class="el" href="namespacealu.html#a168383e119a615fcfa97506988a23985a6bc85118b0ed7d3689decc8fcf0223f0">FEQ_S</a>
-, <br />
-&#160;&#160;<a class="el" href="namespacealu.html#a168383e119a615fcfa97506988a23985a51644b97cff6ac7d706cdbda4e85bab7">FLT_S</a>
-, <a class="el" href="namespacealu.html#a168383e119a615fcfa97506988a23985a57eb9af4807eaf4727adb4169d9d602d">FLE_S</a>
-, <a class="el" href="namespacealu.html#a168383e119a615fcfa97506988a23985a62b59c003809d74898061e90ce3b4cf8">FCLASS_S</a>
-, <a class="el" href="namespacealu.html#a168383e119a615fcfa97506988a23985a4fbe4dabd25f51231c7e15147c65bf6c">FCVT_W_S</a>
-, <br />
-&#160;&#160;<a class="el" href="namespacealu.html#a168383e119a615fcfa97506988a23985acdcdc90aa2168f46de6386753b85cae9">FCVT_WU_S</a>
-, <a class="el" href="namespacealu.html#a168383e119a615fcfa97506988a23985a649655ec1017a96f517093325d29f29b">FCVT_L_S</a>
-, <a class="el" href="namespacealu.html#a168383e119a615fcfa97506988a23985a1e6967b8f50d68a577315db894032088">FCVT_LU_S</a>
-, <a class="el" href="namespacealu.html#a168383e119a615fcfa97506988a23985a8f48d2c51d6b6988080900463dba2772">FCVT_S_W</a>
-, <br />
-&#160;&#160;<a class="el" href="namespacealu.html#a168383e119a615fcfa97506988a23985aad5fb824d7659d49cf79a07ac4e5377a">FCVT_S_WU</a>
-, <a class="el" href="namespacealu.html#a168383e119a615fcfa97506988a23985a851b0935b7dd8c5040c15fde7663263f">FCVT_S_L</a>
-, <a class="el" href="namespacealu.html#a168383e119a615fcfa97506988a23985a0a08a3f2327314f46ac1a1aca24ae8fe">FCVT_S_LU</a>
-, <a class="el" href="namespacealu.html#a168383e119a615fcfa97506988a23985a56c1373b3fce3d4cca0299b9869bed2e">FMV_X_W</a>
-, <br />
-&#160;&#160;<a class="el" href="namespacealu.html#a168383e119a615fcfa97506988a23985a156f79d476ac2489ac5972536339fe60">FMV_W_X</a>
-, <a class="el" href="namespacealu.html#a168383e119a615fcfa97506988a23985aa517c0a80bd5d7e9548b32cb1bb4e958">FMADD_D</a>
-, <a class="el" href="namespacealu.html#a168383e119a615fcfa97506988a23985aadf4b4488c22f5fa2eeef5701ff7de4b">FMSUB_D</a>
-, <a class="el" href="namespacealu.html#a168383e119a615fcfa97506988a23985acccf68986dbd04ba54b4ebafa276a87c">FNMADD_D</a>
-, <br />
-&#160;&#160;<a class="el" href="namespacealu.html#a168383e119a615fcfa97506988a23985abcf54fa75ec2c6e966fe7762dc5c7dbc">FNMSUB_D</a>
-, <a class="el" href="namespacealu.html#a168383e119a615fcfa97506988a23985ab8aa91ba3b9470f730fe5cda1592c385">FADD_D</a>
-, <a class="el" href="namespacealu.html#a168383e119a615fcfa97506988a23985a11b9308c574b725019abcab40946c61c">FSUB_D</a>
-, <a class="el" href="namespacealu.html#a168383e119a615fcfa97506988a23985af17f07c4991375cad3516e251540e551">FMUL_D</a>
-, <br />
-&#160;&#160;<a class="el" href="namespacealu.html#a168383e119a615fcfa97506988a23985ac5aeef5300baeb32375e88fbbfe64b1d">FDIV_D</a>
-, <a class="el" href="namespacealu.html#a168383e119a615fcfa97506988a23985a160254873bf6410473aee157220463b4">FSQRT_D</a>
-, <a class="el" href="namespacealu.html#a168383e119a615fcfa97506988a23985a1a3536cb9a1ceca60e085e0bbf1e919f">FSGNJ_D</a>
-, <a class="el" href="namespacealu.html#a168383e119a615fcfa97506988a23985af512e409f6dbaf400fff95c054dc3102">FSGNJN_D</a>
-, <br />
-&#160;&#160;<a class="el" href="namespacealu.html#a168383e119a615fcfa97506988a23985ad88c0e59c7f367954cbc623eef26ad6e">FSGNJX_D</a>
-, <a class="el" href="namespacealu.html#a168383e119a615fcfa97506988a23985a215fa004d889ea4601eb9a3fbfbd4536">FMIN_D</a>
-, <a class="el" href="namespacealu.html#a168383e119a615fcfa97506988a23985acf31ec465e8f2c8ce90922e8bd9bde67">FMAX_D</a>
-, <a class="el" href="namespacealu.html#a168383e119a615fcfa97506988a23985ad36deef1de95edc020a46c7d326a6d33">FEQ_D</a>
-, <br />
-&#160;&#160;<a class="el" href="namespacealu.html#a168383e119a615fcfa97506988a23985ae45538bbb6dd3c5f83a894e0bfe6b90b">FLT_D</a>
-, <a class="el" href="namespacealu.html#a168383e119a615fcfa97506988a23985ad2cd6ea178048ef3af5cf6286a421844">FLE_D</a>
-, <a class="el" href="namespacealu.html#a168383e119a615fcfa97506988a23985a80963e7f0fba844b89adb5e240e6add1">FCLASS_D</a>
-, <a class="el" href="namespacealu.html#a168383e119a615fcfa97506988a23985a63c070bfa598011e75b5c7726a311502">FCVT_W_D</a>
-, <br />
-&#160;&#160;<a class="el" href="namespacealu.html#a168383e119a615fcfa97506988a23985a25bda27e263673b15f1086df68032344">FCVT_WU_D</a>
-, <a class="el" href="namespacealu.html#a168383e119a615fcfa97506988a23985a1f4da7b460aed10d391276d3fb339ad3">FCVT_L_D</a>
-, <a class="el" href="namespacealu.html#a168383e119a615fcfa97506988a23985acd44034c7d6e503672f4d2605f0d0dbf">FCVT_LU_D</a>
-, <a class="el" href="namespacealu.html#a168383e119a615fcfa97506988a23985ae422def72ae64f315e098c7105f9adf5">FCVT_D_W</a>
-, <br />
-&#160;&#160;<a class="el" href="namespacealu.html#a168383e119a615fcfa97506988a23985ab0b93a4f794311a71a89198abad1563c">FCVT_D_WU</a>
-, <a class="el" href="namespacealu.html#a168383e119a615fcfa97506988a23985a8a0c8c5e9ad233b11f38ccc052d1d7de">FCVT_D_L</a>
-, <a class="el" href="namespacealu.html#a168383e119a615fcfa97506988a23985a618206f29785c745ed8dce43a3745b3a">FCVT_D_LU</a>
-, <a class="el" href="namespacealu.html#a168383e119a615fcfa97506988a23985aea810709950fcf2a825dd435d8570d83">FCVT_S_D</a>
-, <br />
-&#160;&#160;<a class="el" href="namespacealu.html#a168383e119a615fcfa97506988a23985a472d04feb36c85d0c3a02f42b5f32017">FCVT_D_S</a>
-, <a class="el" href="namespacealu.html#a168383e119a615fcfa97506988a23985a1879daa996a14bf6b4526cdccd4d6a7d">FMV_D_X</a>
-, <a class="el" href="namespacealu.html#a168383e119a615fcfa97506988a23985a9ae5838e54ed93c698c0b3707bc28cc5">FMV_X_D</a>
+&#160;&#160;<a class="el" href="namespaceALU.html#a92e727ac8b6977ab7108be9fe861f119a524c29e44088703133bf9aa2fe34c463">kSrl</a>
+, <a class="el" href="namespaceALU.html#a92e727ac8b6977ab7108be9fe861f119a406292f3c5b20715e348f48fa5e6d6e3">kSra</a>
+, <a class="el" href="namespaceALU.html#a92e727ac8b6977ab7108be9fe861f119ac71563c4ae48cc1bbd2e7913366cdf7e">kSlt</a>
+, <a class="el" href="namespaceALU.html#a92e727ac8b6977ab7108be9fe861f119a9160358381d811e98950c5229403ed1d">kSltu</a>
 <br />
  }</td></tr>
-<tr class="separator:a168383e119a615fcfa97506988a23985"><td class="memSeparator" colspan="2">&#160;</td></tr>
-</table><table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
-Functions</h2></td></tr>
-<tr class="memitem:aa159daf5d98346103460989d9551ea58"><td class="memItemLeft" align="right" valign="top">std::ostream &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacealu.html#aa159daf5d98346103460989d9551ea58">operator&lt;&lt;</a> (std::ostream &amp;os, const <a class="el" href="namespacealu.html#a168383e119a615fcfa97506988a23985">AluOp</a> &amp;op)</td></tr>
-<tr class="separator:aa159daf5d98346103460989d9551ea58"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="separator:a92e727ac8b6977ab7108be9fe861f119"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
-<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><p>File Name: <a class="el" href="alu_8cpp.html">alu.cpp</a> Author: Vishank Singh Github: <a href="https://github.com/VishankSingh">https://github.com/VishankSingh</a> </p>
-</div><h2 class="groupheader">Enumeration Type Documentation</h2>
-<a id="a168383e119a615fcfa97506988a23985"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a168383e119a615fcfa97506988a23985">&#9670;&nbsp;</a></span>AluOp</h2>
+<h2 class="groupheader">Enumeration Type Documentation</h2>
+<a id="a92e727ac8b6977ab7108be9fe861f119"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a92e727ac8b6977ab7108be9fe861f119">&#9670;&nbsp;</a></span>AluOp</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -209,7 +112,7 @@ Functions</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">enum <a class="el" href="namespacealu.html#a168383e119a615fcfa97506988a23985">alu::AluOp</a></td>
+          <td class="memname">enum <a class="el" href="namespaceALU.html#a92e727ac8b6977ab7108be9fe861f119">alu::AluOp</a></td>
         </tr>
       </table>
   </td>
@@ -219,218 +122,39 @@ Functions</h2></td></tr>
 </table>
 </div><div class="memdoc">
 <table class="fieldtable">
-<tr><th colspan="2">Enumerator</th></tr><tr><td class="fieldname"><a id="a168383e119a615fcfa97506988a23985a35c3ace1970663a16e5c65baa5941b13"></a>kNone&#160;</td><td class="fielddoc"><p>No operation. </p>
+<tr><th colspan="2">Enumerator</th></tr><tr><td class="fieldname"><a id="a92e727ac8b6977ab7108be9fe861f119ab50339a10e1de285ac99d4c3990b8693"></a>kNone&#160;</td><td class="fielddoc"><p>No operation. </p>
 </td></tr>
-<tr><td class="fieldname"><a id="a168383e119a615fcfa97506988a23985aa9130c0c8cfb5cbb3b70c98f89d3d96c"></a>kAdd&#160;</td><td class="fielddoc"><p>Addition operation. </p>
+<tr><td class="fieldname"><a id="a92e727ac8b6977ab7108be9fe861f119a9eeb52badb613229884838847294b90d"></a>kAdd&#160;</td><td class="fielddoc"><p>Addition operation. </p>
 </td></tr>
-<tr><td class="fieldname"><a id="a168383e119a615fcfa97506988a23985a5814d472434d44f9306c1933e39dc593"></a>kAddw&#160;</td><td class="fielddoc"><p>Addition word operation. </p>
+<tr><td class="fieldname"><a id="a92e727ac8b6977ab7108be9fe861f119a241dd841abade20fcb27b8a9f494e1eb"></a>kSub&#160;</td><td class="fielddoc"><p>Subtraction operation. </p>
 </td></tr>
-<tr><td class="fieldname"><a id="a168383e119a615fcfa97506988a23985af66ca3c8e49231635fce6e56fadbc791"></a>kSub&#160;</td><td class="fielddoc"><p>Subtraction operation. </p>
+<tr><td class="fieldname"><a id="a92e727ac8b6977ab7108be9fe861f119a2cdf52a55876063ec93b7d18bc741f6c"></a>kMul&#160;</td><td class="fielddoc"><p>Multiplication operation. </p>
 </td></tr>
-<tr><td class="fieldname"><a id="a168383e119a615fcfa97506988a23985a05f1f16b27cc2bded8034f1a173b4f2b"></a>kSubw&#160;</td><td class="fielddoc"><p>Subtraction word operation. </p>
+<tr><td class="fieldname"><a id="a92e727ac8b6977ab7108be9fe861f119a29bbf66f7f8529ec47e394fb5a36c646"></a>kDiv&#160;</td><td class="fielddoc"><p>Division operation. </p>
 </td></tr>
-<tr><td class="fieldname"><a id="a168383e119a615fcfa97506988a23985a622e5142de51765da329dba31d104724"></a>kMul&#160;</td><td class="fielddoc"><p>Multiplication operation. </p>
+<tr><td class="fieldname"><a id="a92e727ac8b6977ab7108be9fe861f119a8c629acb10e8fd70ee1b4c966ec76c36"></a>kDivu&#160;</td><td class="fielddoc"><p>Unsigned division operation. </p>
 </td></tr>
-<tr><td class="fieldname"><a id="a168383e119a615fcfa97506988a23985a5d7bd99c5826f29e34f02402beb6f960"></a>kMulh&#160;</td><td class="fielddoc"><p>Multiplication high operation. </p>
+<tr><td class="fieldname"><a id="a92e727ac8b6977ab7108be9fe861f119af5b7d8538da68fa55ace6e8f83a2378c"></a>kRem&#160;</td><td class="fielddoc"><p>Remainder operation. </p>
 </td></tr>
-<tr><td class="fieldname"><a id="a168383e119a615fcfa97506988a23985a0d06601dce8967314cc1aa0e8b2226fc"></a>kMulhsu&#160;</td><td class="fielddoc"><p>Multiplication high signed and unsigned operation. </p>
+<tr><td class="fieldname"><a id="a92e727ac8b6977ab7108be9fe861f119abc4402413138d0e1daac58067426544f"></a>kRemu&#160;</td><td class="fielddoc"><p>Unsigned remainder operation. </p>
 </td></tr>
-<tr><td class="fieldname"><a id="a168383e119a615fcfa97506988a23985a57fefefa33d3579acd21fe9f12519a8c"></a>kMulhu&#160;</td><td class="fielddoc"><p>Multiplication high unsigned operation. </p>
+<tr><td class="fieldname"><a id="a92e727ac8b6977ab7108be9fe861f119a558ffc8f5770d8e4f95f51d822685532"></a>kAnd&#160;</td><td class="fielddoc"><p>Bitwise kAnd operation. </p>
 </td></tr>
-<tr><td class="fieldname"><a id="a168383e119a615fcfa97506988a23985ade1206f006af1123de14b808ed906d8b"></a>kMulw&#160;</td><td class="fielddoc"><p>Multiplication word operation. </p>
+<tr><td class="fieldname"><a id="a92e727ac8b6977ab7108be9fe861f119a1d00e7dce692e8dc3f6877f035e3a616"></a>kOr&#160;</td><td class="fielddoc"><p>Bitwise kOr operation. </p>
 </td></tr>
-<tr><td class="fieldname"><a id="a168383e119a615fcfa97506988a23985a62ff1bc26aac2154f97b79366b7a8de4"></a>kDiv&#160;</td><td class="fielddoc"><p>Division operation. </p>
+<tr><td class="fieldname"><a id="a92e727ac8b6977ab7108be9fe861f119a97675eb3f268048604dc5155511a2a4d"></a>kXor&#160;</td><td class="fielddoc"><p>Bitwise kXor operation. </p>
 </td></tr>
-<tr><td class="fieldname"><a id="a168383e119a615fcfa97506988a23985a6ad359e329ccf0d3fa3c9bef43a3cb43"></a>kDivw&#160;</td><td class="fielddoc"><p>Division word operation. </p>
+<tr><td class="fieldname"><a id="a92e727ac8b6977ab7108be9fe861f119aae2ecfbd95d475ddf08876080d57e3d9"></a>kSll&#160;</td><td class="fielddoc"><p>Shift left logical operation. </p>
 </td></tr>
-<tr><td class="fieldname"><a id="a168383e119a615fcfa97506988a23985aa1613f20d7277b56317b97526f5ddd59"></a>kDivu&#160;</td><td class="fielddoc"><p>Unsigned division operation. </p>
+<tr><td class="fieldname"><a id="a92e727ac8b6977ab7108be9fe861f119a524c29e44088703133bf9aa2fe34c463"></a>kSrl&#160;</td><td class="fielddoc"><p>Shift right logical operation. </p>
 </td></tr>
-<tr><td class="fieldname"><a id="a168383e119a615fcfa97506988a23985a632d0ecd17465c4b5c5735599856805e"></a>kDivuw&#160;</td><td class="fielddoc"><p>Unsigned division word operation. </p>
+<tr><td class="fieldname"><a id="a92e727ac8b6977ab7108be9fe861f119a406292f3c5b20715e348f48fa5e6d6e3"></a>kSra&#160;</td><td class="fielddoc"><p>Shift right arithmetic operation. </p>
 </td></tr>
-<tr><td class="fieldname"><a id="a168383e119a615fcfa97506988a23985ad2d8f8a76441cf7839e3b6c354fa3618"></a>kRem&#160;</td><td class="fielddoc"><p>Remainder operation. </p>
+<tr><td class="fieldname"><a id="a92e727ac8b6977ab7108be9fe861f119ac71563c4ae48cc1bbd2e7913366cdf7e"></a>kSlt&#160;</td><td class="fielddoc"><p>Set less than operation. </p>
 </td></tr>
-<tr><td class="fieldname"><a id="a168383e119a615fcfa97506988a23985a604f0e074a5c731cc24cfceecc9041a7"></a>kRemw&#160;</td><td class="fielddoc"><p>Remainder word operation. </p>
-</td></tr>
-<tr><td class="fieldname"><a id="a168383e119a615fcfa97506988a23985ae414eacac092904aeb4235f9eeeadb21"></a>kRemu&#160;</td><td class="fielddoc"><p>Unsigned remainder operation. </p>
-</td></tr>
-<tr><td class="fieldname"><a id="a168383e119a615fcfa97506988a23985ac4c5e088c1e06b9f2d33eb0cddcacb38"></a>kRemuw&#160;</td><td class="fielddoc"><p>Unsigned remainder word operation. </p>
-</td></tr>
-<tr><td class="fieldname"><a id="a168383e119a615fcfa97506988a23985a5c61096a81b3e5cbbde4f43b14c8f0d9"></a>kAnd&#160;</td><td class="fielddoc"><p>Bitwise kAnd operation. </p>
-</td></tr>
-<tr><td class="fieldname"><a id="a168383e119a615fcfa97506988a23985a5b7e85783b7acdff953371531833aac4"></a>kOr&#160;</td><td class="fielddoc"><p>Bitwise kOr operation. </p>
-</td></tr>
-<tr><td class="fieldname"><a id="a168383e119a615fcfa97506988a23985ac045af4c7aaf252049c84e9c06019d6e"></a>kXor&#160;</td><td class="fielddoc"><p>Bitwise kXor operation. </p>
-</td></tr>
-<tr><td class="fieldname"><a id="a168383e119a615fcfa97506988a23985a31b2dcb97466607a23d8c7c9d318a345"></a>kSll&#160;</td><td class="fielddoc"><p>Shift left logical operation. </p>
-</td></tr>
-<tr><td class="fieldname"><a id="a168383e119a615fcfa97506988a23985ab64399991ffdcb426ce1cc67d65d1632"></a>kSllw&#160;</td><td class="fielddoc"><p>Shift left logical word operation. </p>
-</td></tr>
-<tr><td class="fieldname"><a id="a168383e119a615fcfa97506988a23985a946650cdc67e9fee1826aec76398702e"></a>kSrl&#160;</td><td class="fielddoc"><p>Shift right logical operation. </p>
-</td></tr>
-<tr><td class="fieldname"><a id="a168383e119a615fcfa97506988a23985a8fbc3cd28d2db1ff376c4a9c84f65ccc"></a>kSrlw&#160;</td><td class="fielddoc"><p>Shift right logical word operation. </p>
-</td></tr>
-<tr><td class="fieldname"><a id="a168383e119a615fcfa97506988a23985a6d7ccf5f1a560a20b7721f479d85fced"></a>kSra&#160;</td><td class="fielddoc"><p>Shift right arithmetic operation. </p>
-</td></tr>
-<tr><td class="fieldname"><a id="a168383e119a615fcfa97506988a23985a0b5f4ddc9dad7457b794921959e6fd81"></a>kSraw&#160;</td><td class="fielddoc"><p>Shift right arithmetic word operation. </p>
-</td></tr>
-<tr><td class="fieldname"><a id="a168383e119a615fcfa97506988a23985a2da53de8e3b9cac5a896c0ad31431b74"></a>kSlt&#160;</td><td class="fielddoc"><p>Set less than operation. </p>
-</td></tr>
-<tr><td class="fieldname"><a id="a168383e119a615fcfa97506988a23985a7114d2dd322d0c6fa4dfd7fdd8410633"></a>kSltu&#160;</td><td class="fielddoc"><p>Unsigned set less than operation. </p>
-</td></tr>
-<tr><td class="fieldname"><a id="a168383e119a615fcfa97506988a23985aba88cf4ea33e830c82290b53346cf700"></a>kFmadd_s&#160;</td><td class="fielddoc"><p>Floating point multiply-add single operation. </p>
-</td></tr>
-<tr><td class="fieldname"><a id="a168383e119a615fcfa97506988a23985a4e806301e4079ae09e8cee2adb484304"></a>kFmsub_s&#160;</td><td class="fielddoc"><p>Floating point multiply-subtract single operation. </p>
-</td></tr>
-<tr><td class="fieldname"><a id="a168383e119a615fcfa97506988a23985a61fc9a2486a3f32a5edd84e103a0d3b2"></a>kFnmadd_s&#160;</td><td class="fielddoc"><p>Floating point negative multiply-add single operation. </p>
-</td></tr>
-<tr><td class="fieldname"><a id="a168383e119a615fcfa97506988a23985a4b5adb79a5478a8a1aa1b598bfdda8eb"></a>kFnmsub_s&#160;</td><td class="fielddoc"><p>Floating point negative multiply-subtract single operation. </p>
-</td></tr>
-<tr><td class="fieldname"><a id="a168383e119a615fcfa97506988a23985ac107de66ca007fc3fa224d05986cfa08"></a>FADD_S&#160;</td><td class="fielddoc"><p>Floating point addition operation. </p>
-</td></tr>
-<tr><td class="fieldname"><a id="a168383e119a615fcfa97506988a23985af9f23b93c8a781a0fc9d7516c14a5955"></a>FSUB_S&#160;</td><td class="fielddoc"><p>Floating point subtraction operation. </p>
-</td></tr>
-<tr><td class="fieldname"><a id="a168383e119a615fcfa97506988a23985a4e1f4b5e737c8b5bbebc5825beed2f56"></a>FMUL_S&#160;</td><td class="fielddoc"><p>Floating point multiplication operation. </p>
-</td></tr>
-<tr><td class="fieldname"><a id="a168383e119a615fcfa97506988a23985a66ab6345455dd20bb88bb282a53e2eb5"></a>FDIV_S&#160;</td><td class="fielddoc"><p>Floating point division operation. </p>
-</td></tr>
-<tr><td class="fieldname"><a id="a168383e119a615fcfa97506988a23985a606f8aedd399fd2a05dd2a6536152f09"></a>FSQRT_S&#160;</td><td class="fielddoc"><p>Floating point square root operation. </p>
-</td></tr>
-<tr><td class="fieldname"><a id="a168383e119a615fcfa97506988a23985a46552ee28b754889304793b799c7b80a"></a>FSGNJ_S&#160;</td><td class="fielddoc"><p>Floating point sign inject operation. </p>
-</td></tr>
-<tr><td class="fieldname"><a id="a168383e119a615fcfa97506988a23985a865c8c81a8ab028a1ffc7c12423e8fa1"></a>FSGNJN_S&#160;</td><td class="fielddoc"><p>Floating point sign inject negative operation. </p>
-</td></tr>
-<tr><td class="fieldname"><a id="a168383e119a615fcfa97506988a23985aefd9f447c49655f44e48651e510792cf"></a>FSGNJX_S&#160;</td><td class="fielddoc"><p>Floating point sign inject kXor operation. </p>
-</td></tr>
-<tr><td class="fieldname"><a id="a168383e119a615fcfa97506988a23985a2c17e161c8f8dd7c6f000dcf1e8761ce"></a>FMIN_S&#160;</td><td class="fielddoc"><p>Floating point minimum operation. </p>
-</td></tr>
-<tr><td class="fieldname"><a id="a168383e119a615fcfa97506988a23985a0a9ecfa347fcbe8f992c50acbd0e9a81"></a>FMAX_S&#160;</td><td class="fielddoc"><p>Floating point maximum operation. </p>
-</td></tr>
-<tr><td class="fieldname"><a id="a168383e119a615fcfa97506988a23985a6bc85118b0ed7d3689decc8fcf0223f0"></a>FEQ_S&#160;</td><td class="fielddoc"><p>Floating point equal operation. </p>
-</td></tr>
-<tr><td class="fieldname"><a id="a168383e119a615fcfa97506988a23985a51644b97cff6ac7d706cdbda4e85bab7"></a>FLT_S&#160;</td><td class="fielddoc"><p>Floating point less than operation. </p>
-</td></tr>
-<tr><td class="fieldname"><a id="a168383e119a615fcfa97506988a23985a57eb9af4807eaf4727adb4169d9d602d"></a>FLE_S&#160;</td><td class="fielddoc"><p>Floating point less than or equal operation. </p>
-</td></tr>
-<tr><td class="fieldname"><a id="a168383e119a615fcfa97506988a23985a62b59c003809d74898061e90ce3b4cf8"></a>FCLASS_S&#160;</td><td class="fielddoc"><p>Floating point class operation. </p>
-</td></tr>
-<tr><td class="fieldname"><a id="a168383e119a615fcfa97506988a23985a4fbe4dabd25f51231c7e15147c65bf6c"></a>FCVT_W_S&#160;</td><td class="fielddoc"><p>Floating point convert to word operation. </p>
-</td></tr>
-<tr><td class="fieldname"><a id="a168383e119a615fcfa97506988a23985acdcdc90aa2168f46de6386753b85cae9"></a>FCVT_WU_S&#160;</td><td class="fielddoc"><p>Floating point convert to unsigned word operation. </p>
-</td></tr>
-<tr><td class="fieldname"><a id="a168383e119a615fcfa97506988a23985a649655ec1017a96f517093325d29f29b"></a>FCVT_L_S&#160;</td><td class="fielddoc"><p>Floating point convert double to long operation. </p>
-</td></tr>
-<tr><td class="fieldname"><a id="a168383e119a615fcfa97506988a23985a1e6967b8f50d68a577315db894032088"></a>FCVT_LU_S&#160;</td><td class="fielddoc"><p>Floating point convert double to unsigned long operation. </p>
-</td></tr>
-<tr><td class="fieldname"><a id="a168383e119a615fcfa97506988a23985a8f48d2c51d6b6988080900463dba2772"></a>FCVT_S_W&#160;</td><td class="fielddoc"><p>Floating point convert word to operation. </p>
-</td></tr>
-<tr><td class="fieldname"><a id="a168383e119a615fcfa97506988a23985aad5fb824d7659d49cf79a07ac4e5377a"></a>FCVT_S_WU&#160;</td><td class="fielddoc"><p>Floating point convert unsigned word to operation. </p>
-</td></tr>
-<tr><td class="fieldname"><a id="a168383e119a615fcfa97506988a23985a851b0935b7dd8c5040c15fde7663263f"></a>FCVT_S_L&#160;</td><td class="fielddoc"><p>Floating point convert long to single operation. </p>
-</td></tr>
-<tr><td class="fieldname"><a id="a168383e119a615fcfa97506988a23985a0a08a3f2327314f46ac1a1aca24ae8fe"></a>FCVT_S_LU&#160;</td><td class="fielddoc"><p>Floating point convert unsigned long to single operation. </p>
-</td></tr>
-<tr><td class="fieldname"><a id="a168383e119a615fcfa97506988a23985a56c1373b3fce3d4cca0299b9869bed2e"></a>FMV_X_W&#160;</td><td class="fielddoc"><p>Floating point move to integer operation. </p>
-</td></tr>
-<tr><td class="fieldname"><a id="a168383e119a615fcfa97506988a23985a156f79d476ac2489ac5972536339fe60"></a>FMV_W_X&#160;</td><td class="fielddoc"><p>Floating point move from integer operation. </p>
-</td></tr>
-<tr><td class="fieldname"><a id="a168383e119a615fcfa97506988a23985aa517c0a80bd5d7e9548b32cb1bb4e958"></a>FMADD_D&#160;</td><td class="fielddoc"><p>Floating point multiply-add double operation. </p>
-</td></tr>
-<tr><td class="fieldname"><a id="a168383e119a615fcfa97506988a23985aadf4b4488c22f5fa2eeef5701ff7de4b"></a>FMSUB_D&#160;</td><td class="fielddoc"><p>Floating point multiply-subtract double operation. </p>
-</td></tr>
-<tr><td class="fieldname"><a id="a168383e119a615fcfa97506988a23985acccf68986dbd04ba54b4ebafa276a87c"></a>FNMADD_D&#160;</td><td class="fielddoc"><p>Floating point negative multiply-add double operation. </p>
-</td></tr>
-<tr><td class="fieldname"><a id="a168383e119a615fcfa97506988a23985abcf54fa75ec2c6e966fe7762dc5c7dbc"></a>FNMSUB_D&#160;</td><td class="fielddoc"><p>Floating point negative multiply-subtract double operation. </p>
-</td></tr>
-<tr><td class="fieldname"><a id="a168383e119a615fcfa97506988a23985ab8aa91ba3b9470f730fe5cda1592c385"></a>FADD_D&#160;</td><td class="fielddoc"><p>Floating point addition double operation. </p>
-</td></tr>
-<tr><td class="fieldname"><a id="a168383e119a615fcfa97506988a23985a11b9308c574b725019abcab40946c61c"></a>FSUB_D&#160;</td><td class="fielddoc"><p>Floating point subtraction double operation. </p>
-</td></tr>
-<tr><td class="fieldname"><a id="a168383e119a615fcfa97506988a23985af17f07c4991375cad3516e251540e551"></a>FMUL_D&#160;</td><td class="fielddoc"><p>Floating point multiplication double operation. </p>
-</td></tr>
-<tr><td class="fieldname"><a id="a168383e119a615fcfa97506988a23985ac5aeef5300baeb32375e88fbbfe64b1d"></a>FDIV_D&#160;</td><td class="fielddoc"><p>Floating point division double operation. </p>
-</td></tr>
-<tr><td class="fieldname"><a id="a168383e119a615fcfa97506988a23985a160254873bf6410473aee157220463b4"></a>FSQRT_D&#160;</td><td class="fielddoc"><p>Floating point square root double operation. </p>
-</td></tr>
-<tr><td class="fieldname"><a id="a168383e119a615fcfa97506988a23985a1a3536cb9a1ceca60e085e0bbf1e919f"></a>FSGNJ_D&#160;</td><td class="fielddoc"><p>Floating point sign inject double operation. </p>
-</td></tr>
-<tr><td class="fieldname"><a id="a168383e119a615fcfa97506988a23985af512e409f6dbaf400fff95c054dc3102"></a>FSGNJN_D&#160;</td><td class="fielddoc"><p>Floating point sign inject negative double operation. </p>
-</td></tr>
-<tr><td class="fieldname"><a id="a168383e119a615fcfa97506988a23985ad88c0e59c7f367954cbc623eef26ad6e"></a>FSGNJX_D&#160;</td><td class="fielddoc"><p>Floating point sign inject kXor double operation. </p>
-</td></tr>
-<tr><td class="fieldname"><a id="a168383e119a615fcfa97506988a23985a215fa004d889ea4601eb9a3fbfbd4536"></a>FMIN_D&#160;</td><td class="fielddoc"><p>Floating point minimum double operation. </p>
-</td></tr>
-<tr><td class="fieldname"><a id="a168383e119a615fcfa97506988a23985acf31ec465e8f2c8ce90922e8bd9bde67"></a>FMAX_D&#160;</td><td class="fielddoc"><p>Floating point maximum double operation. </p>
-</td></tr>
-<tr><td class="fieldname"><a id="a168383e119a615fcfa97506988a23985ad36deef1de95edc020a46c7d326a6d33"></a>FEQ_D&#160;</td><td class="fielddoc"><p>Floating point equal double operation. </p>
-</td></tr>
-<tr><td class="fieldname"><a id="a168383e119a615fcfa97506988a23985ae45538bbb6dd3c5f83a894e0bfe6b90b"></a>FLT_D&#160;</td><td class="fielddoc"><p>Floating point less than double operation. </p>
-</td></tr>
-<tr><td class="fieldname"><a id="a168383e119a615fcfa97506988a23985ad2cd6ea178048ef3af5cf6286a421844"></a>FLE_D&#160;</td><td class="fielddoc"><p>Floating point less than or equal double operation. </p>
-</td></tr>
-<tr><td class="fieldname"><a id="a168383e119a615fcfa97506988a23985a80963e7f0fba844b89adb5e240e6add1"></a>FCLASS_D&#160;</td><td class="fielddoc"><p>Floating point class double operation. </p>
-</td></tr>
-<tr><td class="fieldname"><a id="a168383e119a615fcfa97506988a23985a63c070bfa598011e75b5c7726a311502"></a>FCVT_W_D&#160;</td><td class="fielddoc"><p>Floating point convert double to word operation. </p>
-</td></tr>
-<tr><td class="fieldname"><a id="a168383e119a615fcfa97506988a23985a25bda27e263673b15f1086df68032344"></a>FCVT_WU_D&#160;</td><td class="fielddoc"><p>Floating point convert double to unsigned word operation. </p>
-</td></tr>
-<tr><td class="fieldname"><a id="a168383e119a615fcfa97506988a23985a1f4da7b460aed10d391276d3fb339ad3"></a>FCVT_L_D&#160;</td><td class="fielddoc"><p>Floating point convert double to long operation. </p>
-</td></tr>
-<tr><td class="fieldname"><a id="a168383e119a615fcfa97506988a23985acd44034c7d6e503672f4d2605f0d0dbf"></a>FCVT_LU_D&#160;</td><td class="fielddoc"><p>Floating point convert double to unsigned long operation. </p>
-</td></tr>
-<tr><td class="fieldname"><a id="a168383e119a615fcfa97506988a23985ae422def72ae64f315e098c7105f9adf5"></a>FCVT_D_W&#160;</td><td class="fielddoc"><p>Floating point convert word to double operation. </p>
-</td></tr>
-<tr><td class="fieldname"><a id="a168383e119a615fcfa97506988a23985ab0b93a4f794311a71a89198abad1563c"></a>FCVT_D_WU&#160;</td><td class="fielddoc"><p>Floating point convert unsigned word to double operation. </p>
-</td></tr>
-<tr><td class="fieldname"><a id="a168383e119a615fcfa97506988a23985a8a0c8c5e9ad233b11f38ccc052d1d7de"></a>FCVT_D_L&#160;</td><td class="fielddoc"><p>Floating point convert long to double operation. </p>
-</td></tr>
-<tr><td class="fieldname"><a id="a168383e119a615fcfa97506988a23985a618206f29785c745ed8dce43a3745b3a"></a>FCVT_D_LU&#160;</td><td class="fielddoc"><p>Floating point convert unsigned long to double operation. </p>
-</td></tr>
-<tr><td class="fieldname"><a id="a168383e119a615fcfa97506988a23985aea810709950fcf2a825dd435d8570d83"></a>FCVT_S_D&#160;</td><td class="fielddoc"><p>Floating point convert double to single operation. </p>
-</td></tr>
-<tr><td class="fieldname"><a id="a168383e119a615fcfa97506988a23985a472d04feb36c85d0c3a02f42b5f32017"></a>FCVT_D_S&#160;</td><td class="fielddoc"><p>Floating point convert single to double operation. </p>
-</td></tr>
-<tr><td class="fieldname"><a id="a168383e119a615fcfa97506988a23985a1879daa996a14bf6b4526cdccd4d6a7d"></a>FMV_D_X&#160;</td><td class="fielddoc"><p>Floating point move to integer double operation. </p>
-</td></tr>
-<tr><td class="fieldname"><a id="a168383e119a615fcfa97506988a23985a9ae5838e54ed93c698c0b3707bc28cc5"></a>FMV_X_D&#160;</td><td class="fielddoc"><p>Floating point move from integer double operation. </p>
+<tr><td class="fieldname"><a id="a92e727ac8b6977ab7108be9fe861f119a9160358381d811e98950c5229403ed1d"></a>kSltu&#160;</td><td class="fielddoc"><p>Unsigned set less than operation. </p>
 </td></tr>
 </table>
-
-</div>
-</div>
-<h2 class="groupheader">Function Documentation</h2>
-<a id="aa159daf5d98346103460989d9551ea58"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aa159daf5d98346103460989d9551ea58">&#9670;&nbsp;</a></span>operator&lt;&lt;()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">std::ostream&amp; alu::operator&lt;&lt; </td>
-          <td>(</td>
-          <td class="paramtype">std::ostream &amp;&#160;</td>
-          <td class="paramname"><em>os</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">const <a class="el" href="namespacealu.html#a168383e119a615fcfa97506988a23985">AluOp</a> &amp;&#160;</td>
-          <td class="paramname"><em>op</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
 
 </div>
 </div>

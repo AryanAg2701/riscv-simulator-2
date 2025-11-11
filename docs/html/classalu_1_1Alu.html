@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.9.1"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>RISC-V Simulator: alu::Alu Class Reference</title>
+<title>RISC-V Simulator: alu::alu Class Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -61,64 +61,39 @@ $(function() {
 
 <div id="nav-path" class="navpath">
   <ul>
-<li class="navelem"><a class="el" href="namespacealu.html">alu</a></li><li class="navelem"><a class="el" href="classalu_1_1Alu.html">Alu</a></li>  </ul>
+<li class="navelem"><a class="el" href="namespaceALU.html">alu</a></li><li class="navelem"><a class="el" href="classALU_1_1ALU.html">alu</a></li>  </ul>
 </div>
 </div><!-- top -->
 <div class="header">
   <div class="summary">
 <a href="#pub-methods">Public Member Functions</a> &#124;
-<a href="#pub-static-methods">Static Public Member Functions</a> &#124;
-<a href="#pub-attribs">Public Attributes</a> &#124;
-<a href="classalu_1_1Alu-members.html">List of all members</a>  </div>
+<a href="classALU_1_1ALU-members.html">List of all members</a>  </div>
   <div class="headertitle">
-<div class="title">alu::Alu Class Reference</div>  </div>
+<div class="title">alu::alu Class Reference</div>  </div>
 </div><!--header-->
 <div class="contents">
 
-<p>The alu class is responsible for performing arithmetic and logic operations.  
- <a href="classalu_1_1Alu.html#details">More...</a></p>
+<p>The <a class="el" href="classALU_1_1ALU.html" title="The alu class is responsible for performing arithmetic and logic operations.">alu</a> class is responsible for performing arithmetic and logic operations.
+ <a href="classALU_1_1ALU.html#details">More...</a></p>
 
 <p><code>#include &lt;<a class="el" href="alu_8h_source.html">alu.h</a>&gt;</code></p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:ad12647f1d4dbfd04498727e4e44877b2"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classalu_1_1Alu.html#ad12647f1d4dbfd04498727e4e44877b2">Alu</a> ()=default</td></tr>
-<tr class="separator:ad12647f1d4dbfd04498727e4e44877b2"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a258f8def8433b1de5b5ae2a88037de5e"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classalu_1_1Alu.html#a258f8def8433b1de5b5ae2a88037de5e">~Alu</a> ()=default</td></tr>
-<tr class="separator:a258f8def8433b1de5b5ae2a88037de5e"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a37bb2aac9cb2c8ae05ceee0d6404e5cc"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classalu_1_1Alu.html#a37bb2aac9cb2c8ae05ceee0d6404e5cc">setFlags</a> (bool carry, bool zero, bool negative, bool overflow)</td></tr>
-<tr class="separator:a37bb2aac9cb2c8ae05ceee0d6404e5cc"><td class="memSeparator" colspan="2">&#160;</td></tr>
-</table><table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-static-methods"></a>
-Static Public Member Functions</h2></td></tr>
-<tr class="memitem:aa545d94b7e58471fb4d66af9da1ebefe"><td class="memItemLeft" align="right" valign="top">static std::pair&lt; uint64_t, bool &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classalu_1_1Alu.html#aa545d94b7e58471fb4d66af9da1ebefe">execute</a> (<a class="el" href="namespacealu.html#a168383e119a615fcfa97506988a23985">AluOp</a> op, uint64_t a, uint64_t b)</td></tr>
-<tr class="memdesc:aa545d94b7e58471fb4d66af9da1ebefe"><td class="mdescLeft">&#160;</td><td class="mdescRight">Executes the given alu operation.  <a href="classalu_1_1Alu.html#aa545d94b7e58471fb4d66af9da1ebefe">More...</a><br /></td></tr>
-<tr class="separator:aa545d94b7e58471fb4d66af9da1ebefe"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a0c8e729c4658fa7de36a9220bfbef713"><td class="memItemLeft" align="right" valign="top">static std::pair&lt; uint64_t, uint8_t &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classalu_1_1Alu.html#a0c8e729c4658fa7de36a9220bfbef713">fpexecute</a> (<a class="el" href="namespacealu.html#a168383e119a615fcfa97506988a23985">AluOp</a> op, uint64_t ina, uint64_t inb, uint64_t inc, uint8_t rm)</td></tr>
-<tr class="separator:a0c8e729c4658fa7de36a9220bfbef713"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a79516ee000db50fd48dd1a78981a78c4"><td class="memItemLeft" align="right" valign="top">static std::pair&lt; uint64_t, bool &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classalu_1_1Alu.html#a79516ee000db50fd48dd1a78981a78c4">dfpexecute</a> (<a class="el" href="namespacealu.html#a168383e119a615fcfa97506988a23985">AluOp</a> op, uint64_t ina, uint64_t inb, uint64_t inc, uint8_t rm)</td></tr>
-<tr class="separator:a79516ee000db50fd48dd1a78981a78c4"><td class="memSeparator" colspan="2">&#160;</td></tr>
-</table><table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-attribs"></a>
-Public Attributes</h2></td></tr>
-<tr class="memitem:a7ec7aef26212e3f4fe92edd4e32e934a"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classalu_1_1Alu.html#a7ec7aef26212e3f4fe92edd4e32e934a">carry_</a> = false</td></tr>
-<tr class="memdesc:a7ec7aef26212e3f4fe92edd4e32e934a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Carry flag.  <a href="classalu_1_1Alu.html#a7ec7aef26212e3f4fe92edd4e32e934a">More...</a><br /></td></tr>
-<tr class="separator:a7ec7aef26212e3f4fe92edd4e32e934a"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a4c2f6bd6ce4f7988c5c5af12c2fa69db"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classalu_1_1Alu.html#a4c2f6bd6ce4f7988c5c5af12c2fa69db">zero_</a> = false</td></tr>
-<tr class="memdesc:a4c2f6bd6ce4f7988c5c5af12c2fa69db"><td class="mdescLeft">&#160;</td><td class="mdescRight">Zero flag.  <a href="classalu_1_1Alu.html#a4c2f6bd6ce4f7988c5c5af12c2fa69db">More...</a><br /></td></tr>
-<tr class="separator:a4c2f6bd6ce4f7988c5c5af12c2fa69db"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aaaa90d3ed3bdadb61ba92da792e37dd2"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classalu_1_1Alu.html#aaaa90d3ed3bdadb61ba92da792e37dd2">negative_</a> = false</td></tr>
-<tr class="memdesc:aaaa90d3ed3bdadb61ba92da792e37dd2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Negative flag.  <a href="classalu_1_1Alu.html#aaaa90d3ed3bdadb61ba92da792e37dd2">More...</a><br /></td></tr>
-<tr class="separator:aaaa90d3ed3bdadb61ba92da792e37dd2"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ac6f7ae77babe5d74f8061cfff9b2dbfd"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classalu_1_1Alu.html#ac6f7ae77babe5d74f8061cfff9b2dbfd">overflow_</a> = false</td></tr>
-<tr class="memdesc:ac6f7ae77babe5d74f8061cfff9b2dbfd"><td class="mdescLeft">&#160;</td><td class="mdescRight">Overflow flag.  <a href="classalu_1_1Alu.html#ac6f7ae77babe5d74f8061cfff9b2dbfd">More...</a><br /></td></tr>
-<tr class="separator:ac6f7ae77babe5d74f8061cfff9b2dbfd"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a88f78717c9e84775b753f2937e8a0a84"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classALU_1_1ALU.html#a88f78717c9e84775b753f2937e8a0a84">alu</a> ()=default</td></tr>
+<tr class="separator:a88f78717c9e84775b753f2937e8a0a84"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1b4656ada86660efa5812d26651387fc"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classALU_1_1ALU.html#a1b4656ada86660efa5812d26651387fc">~alu</a> ()=default</td></tr>
+<tr class="separator:a1b4656ada86660efa5812d26651387fc"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af5bf187db686489b0165cff3619e036f"><td class="memTemplParams" colspan="2">template&lt;typename T &gt; </td></tr>
+<tr class="memitem:af5bf187db686489b0165cff3619e036f"><td class="memTemplItemLeft" align="right" valign="top">constexpr std::pair&lt; T, bool &gt;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classALU_1_1ALU.html#af5bf187db686489b0165cff3619e036f">Execute</a> (<a class="el" href="namespaceALU.html#a92e727ac8b6977ab7108be9fe861f119">AluOp</a> op, T a, T b) const</td></tr>
+<tr class="memdesc:af5bf187db686489b0165cff3619e036f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Executes the given <a class="el" href="classALU_1_1ALU.html" title="The alu class is responsible for performing arithmetic and logic operations.">alu</a> operation.  <a href="classALU_1_1ALU.html#af5bf187db686489b0165cff3619e036f">More...</a><br /></td></tr>
+<tr class="separator:af5bf187db686489b0165cff3619e036f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><p>The alu class is responsible for performing arithmetic and logic operations. </p>
+<div class="textblock"><p>The <a class="el" href="classALU_1_1ALU.html" title="The alu class is responsible for performing arithmetic and logic operations.">alu</a> class is responsible for performing arithmetic and logic operations. </p>
 </div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
-<a id="ad12647f1d4dbfd04498727e4e44877b2"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ad12647f1d4dbfd04498727e4e44877b2">&#9670;&nbsp;</a></span>Alu()</h2>
+<a id="a88f78717c9e84775b753f2937e8a0a84"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a88f78717c9e84775b753f2937e8a0a84">&#9670;&nbsp;</a></span>alu()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -127,7 +102,7 @@ Public Attributes</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">alu::Alu::Alu </td>
+          <td class="memname">alu::alu::alu </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td></td>
@@ -142,8 +117,8 @@ Public Attributes</h2></td></tr>
 
 </div>
 </div>
-<a id="a258f8def8433b1de5b5ae2a88037de5e"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a258f8def8433b1de5b5ae2a88037de5e">&#9670;&nbsp;</a></span>~Alu()</h2>
+<a id="a1b4656ada86660efa5812d26651387fc"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1b4656ada86660efa5812d26651387fc">&#9670;&nbsp;</a></span>~alu()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -152,7 +127,7 @@ Public Attributes</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">alu::Alu::~Alu </td>
+          <td class="memname">alu::alu::~alu </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td></td>
@@ -168,101 +143,49 @@ Public Attributes</h2></td></tr>
 </div>
 </div>
 <h2 class="groupheader">Member Function Documentation</h2>
-<a id="a79516ee000db50fd48dd1a78981a78c4"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a79516ee000db50fd48dd1a78981a78c4">&#9670;&nbsp;</a></span>dfpexecute()</h2>
+<a id="af5bf187db686489b0165cff3619e036f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af5bf187db686489b0165cff3619e036f">&#9670;&nbsp;</a></span>Execute()</h2>
 
 <div class="memitem">
 <div class="memproto">
+<div class="memtemplate">
+template&lt;typename T &gt; </div>
 <table class="mlabels">
   <tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">std::pair&lt; uint64_t, bool &gt; alu::Alu::dfpexecute </td>
+          <td class="memname">constexpr std::pair&lt;T, bool&gt; alu::alu::Execute </td>
           <td>(</td>
-          <td class="paramtype"><a class="el" href="namespacealu.html#a168383e119a615fcfa97506988a23985">AluOp</a>&#160;</td>
+          <td class="paramtype"><a class="el" href="namespaceALU.html#a92e727ac8b6977ab7108be9fe861f119">AluOp</a>&#160;</td>
           <td class="paramname"><em>op</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">uint64_t&#160;</td>
-          <td class="paramname"><em>ina</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">uint64_t&#160;</td>
-          <td class="paramname"><em>inb</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">uint64_t&#160;</td>
-          <td class="paramname"><em>inc</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">uint8_t&#160;</td>
-          <td class="paramname"><em>rm</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">static</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="aa545d94b7e58471fb4d66af9da1ebefe"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aa545d94b7e58471fb4d66af9da1ebefe">&#9670;&nbsp;</a></span>execute()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">std::pair&lt; uint64_t, bool &gt; alu::Alu::execute </td>
-          <td>(</td>
-          <td class="paramtype"><a class="el" href="namespacealu.html#a168383e119a615fcfa97506988a23985">AluOp</a>&#160;</td>
-          <td class="paramname"><em>op</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">uint64_t&#160;</td>
+          <td class="paramtype">T&#160;</td>
           <td class="paramname"><em>a</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">uint64_t&#160;</td>
+          <td class="paramtype">T&#160;</td>
           <td class="paramname"><em>b</em>&#160;</td>
         </tr>
         <tr>
           <td></td>
           <td>)</td>
-          <td></td><td></td>
+          <td></td><td> const</td>
         </tr>
       </table>
   </td>
   <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">constexpr</span></span>  </td>
   </tr>
 </table>
 </div><div class="memdoc">
 
-<p>Executes the given alu operation. </p>
+<p>Executes the given <a class="el" href="classALU_1_1ALU.html" title="The alu class is responsible for performing arithmetic and logic operations.">alu</a> operation. </p>
 <dl class="tparams"><dt>Template Parameters</dt><dd>
   <table class="tparams">
     <tr><td class="paramname">T</td><td>Integer type (int32_t, uint32_t, etc.). </td></tr>
@@ -271,7 +194,7 @@ Public Attributes</h2></td></tr>
 </dl>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">op</td><td>The alu operation. </td></tr>
+    <tr><td class="paramname">op</td><td>The <a class="el" href="classALU_1_1ALU.html" title="The alu class is responsible for performing arithmetic and logic operations.">alu</a> operation. </td></tr>
     <tr><td class="paramname">a</td><td>First operand. </td></tr>
     <tr><td class="paramname">b</td><td>Second operand. </td></tr>
   </table>
@@ -281,168 +204,8 @@ Public Attributes</h2></td></tr>
 
 </div>
 </div>
-<a id="a0c8e729c4658fa7de36a9220bfbef713"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a0c8e729c4658fa7de36a9220bfbef713">&#9670;&nbsp;</a></span>fpexecute()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">std::pair&lt; uint64_t, uint8_t &gt; alu::Alu::fpexecute </td>
-          <td>(</td>
-          <td class="paramtype"><a class="el" href="namespacealu.html#a168383e119a615fcfa97506988a23985">AluOp</a>&#160;</td>
-          <td class="paramname"><em>op</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">uint64_t&#160;</td>
-          <td class="paramname"><em>ina</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">uint64_t&#160;</td>
-          <td class="paramname"><em>inb</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">uint64_t&#160;</td>
-          <td class="paramname"><em>inc</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">uint8_t&#160;</td>
-          <td class="paramname"><em>rm</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">static</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="a37bb2aac9cb2c8ae05ceee0d6404e5cc"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a37bb2aac9cb2c8ae05ceee0d6404e5cc">&#9670;&nbsp;</a></span>setFlags()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">void alu::Alu::setFlags </td>
-          <td>(</td>
-          <td class="paramtype">bool&#160;</td>
-          <td class="paramname"><em>carry</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">bool&#160;</td>
-          <td class="paramname"><em>zero</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">bool&#160;</td>
-          <td class="paramname"><em>negative</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">bool&#160;</td>
-          <td class="paramname"><em>overflow</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<h2 class="groupheader">Member Data Documentation</h2>
-<a id="a7ec7aef26212e3f4fe92edd4e32e934a"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a7ec7aef26212e3f4fe92edd4e32e934a">&#9670;&nbsp;</a></span>carry_</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">bool alu::Alu::carry_ = false</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Carry flag. </p>
-
-</div>
-</div>
-<a id="aaaa90d3ed3bdadb61ba92da792e37dd2"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aaaa90d3ed3bdadb61ba92da792e37dd2">&#9670;&nbsp;</a></span>negative_</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">bool alu::Alu::negative_ = false</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Negative flag. </p>
-
-</div>
-</div>
-<a id="ac6f7ae77babe5d74f8061cfff9b2dbfd"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ac6f7ae77babe5d74f8061cfff9b2dbfd">&#9670;&nbsp;</a></span>overflow_</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">bool alu::Alu::overflow_ = false</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Overflow flag. </p>
-
-</div>
-</div>
-<a id="a4c2f6bd6ce4f7988c5c5af12c2fa69db"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a4c2f6bd6ce4f7988c5c5af12c2fa69db">&#9670;&nbsp;</a></span>zero_</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">bool alu::Alu::zero_ = false</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Zero flag. </p>
-
-</div>
-</div>
-<hr/>The documentation for this class was generated from the following files:<ul>
-<li>include/vm/<a class="el" href="alu_8h_source.html">alu.h</a></li>
-<li>src/vm/<a class="el" href="alu_8cpp.html">alu.cpp</a></li>
+<hr/>The documentation for this class was generated from the following file:<ul>
+<li>src/vm/<a class="el" href="alu_8h_source.html">alu.h</a></li>
 </ul>
 </div><!-- contents -->
 <!-- start footer part -->

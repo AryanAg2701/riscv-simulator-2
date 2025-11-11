@@ -1,7 +1,6 @@
-<map id="VmBase" name="VmBase">
-<area shape="rect" id="node1" title=" " alt="" coords="231,95,307,121"/>
+<map id="VMBase" name="VMBase">
+<area shape="rect" id="node1" title=" " alt="" coords="132,95,207,121"/>
 <area shape="rect" id="node2" href="$classRegisterFile.html" title="Represents a register file containing integer, floating&#45;point, and vector registers." alt="" coords="5,5,104,32"/>
-<area shape="rect" id="node3" href="$structAssembledProgram.html" title=" " alt="" coords="128,5,277,32"/>
-<area shape="rect" id="node4" href="$classalu_1_1Alu.html" title="The alu class is responsible for performing arithmetic and logic operations." alt="" coords="302,5,373,32"/>
-<area shape="rect" id="node5" href="$classMemoryController.html" title="The MemoryController class is responsible for managing memory in the VM." alt="" coords="397,5,537,32"/>
+<area shape="rect" id="node3" href="$classALU_1_1ALU.html" title="The ALU class is responsible for performing arithmetic and logic operations." alt="" coords="128,5,211,32"/>
+<area shape="rect" id="node4" href="$classMemoryController.html" title="The MemoryController class is responsible for managing memory in the VM." alt="" coords="235,5,375,32"/>
 </map>

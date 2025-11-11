@@ -14,6 +14,7 @@
 #include <cctype>
 #include <cstdint>
 #include <iostream>
+#include <iomanip>
 #include <tuple>
 #include <stack>  
 #include <algorithm>
@@ -26,11 +27,30 @@
 using instruction_set::Instruction;
 using instruction_set::get_instr_encoding;
 
-RV5SVM::RV5SVM() : VmBase() {
-  // Initialize hazard detection from config
+RV5SVM::RV5SVM() : VmBase(), branch_predictor_(BranchPredictor::ALWAYS_NOT_TAKEN) {
+  // Initialize hazard detection and forwarding from config
   hazard_detection_enabled_ = vm_config::config.getHazardDetection();
+  forwarding_enabled_ = vm_config::config.getForwarding();
+  branch_prediction_enabled_ = vm_config::config.getBranchPrediction();
+  
+  // Safety check: Forwarding requires hazard detection (Mode 4)
+  if (forwarding_enabled_ && !hazard_detection_enabled_) {
+    // Forwarding without hazard detection can cause incorrect results
+    // Disable forwarding if hazard detection is not enabled
+    forwarding_enabled_ = false;
+  }
+  
+  // Initialize branch prediction policy
+  std::string policy_str = vm_config::config.getBranchPredictionPolicy();
+  if (policy_str == "always_taken") {
+    branch_predictor_.SetPolicy(BranchPredictor::ALWAYS_TAKEN);
+  } else {
+    branch_predictor_.SetPolicy(BranchPredictor::ALWAYS_NOT_TAKEN);
+  }
+  
   DumpRegisters(globals::registers_dump_file_path, registers_);
-  DumpState(globals::vm_state_dump_file_path);
+  // DumpState is not called here because program_ is not loaded yet
+  // It will be called after LoadProgram() in VmBase::LoadProgram()
 }
 
 RV5SVM::~RV5SVM() = default;
@@ -123,27 +143,6 @@ void RV5SVM::Decode() {
     return;
   }
   
-  // Mode 3: Hazard Detection
-  if (hazard_detection_enabled_) {
-    // Check if we should stall due to data hazard or load-use hazard
-    if (hazard_unit_.ShouldStall(if_id, id_ex, ex_mem, mem_wb)) {
-      // Hazard detected - insert bubble and stall pipeline
-      pipeline_stall_ = true;
-      InsertBubble();  // Insert NOP 
-      stats_.stalls++;
-      
-      // Check if it's a load-use hazard (more specific tracking)
-      if (hazard_unit_.DetectLoadUseHazard(if_id, ex_mem)) {
-      } else {
-        stats_.data_hazards++;  // General RAW hazard
-      }
-      return;
-    } else {
-      // No hazard
-      pipeline_stall_ = false;
-    }
-  }
-  
   uint32_t instruction = if_id.instruction;
   uint64_t pc = if_id.pc;
   
@@ -156,9 +155,119 @@ void RV5SVM::Decode() {
   uint8_t rd = (instruction >> 7) & 0b11111;
   int32_t imm = ImmGenerator(instruction);
   
+  // Mode 3/4: Hazard Detection (with optional forwarding)
+  if (hazard_detection_enabled_) {
+    bool should_stall = false;
+    
+    // Mode 4: Check if forwarding can resolve the hazard
+    if (forwarding_enabled_) {
+      // Create temporary ID/EX register with current instruction's registers
+      // to check forwarding availability
+      ID_EX_Register temp_id_ex;
+      temp_id_ex.rs1 = rs1;
+      temp_id_ex.rs2 = rs2;
+      temp_id_ex.rd = rd;
+      temp_id_ex.read_data1 = registers_.ReadGpr(rs1);
+      temp_id_ex.read_data2 = registers_.ReadGpr(rs2);
+      
+      // Get forwarding signals to see if we can forward
+      auto [forwardA, forwardB] = forwarding_unit_.GetForwardingSignals(temp_id_ex, ex_mem, mem_wb);
+      
+      // Load-use hazards always need a stall (can't forward immediately)
+      if (hazard_unit_.DetectLoadUseHazard(if_id, ex_mem)) {
+        should_stall = true;
+        stats_.data_hazards++;  // Load-use hazard
+      } 
+      // Check if there's a data hazard that forwarding can't resolve
+      else if (hazard_unit_.DetectDataHazard(if_id, id_ex, ex_mem, mem_wb)) {
+        // If forwarding is available, no stall needed
+        if (forwardA == ForwardingUnit::FORWARD_NONE && forwardB == ForwardingUnit::FORWARD_NONE) {
+          // No forwarding available, must stall
+          should_stall = true;
+          stats_.data_hazards++;
+        } else {
+          // Forwarding available - no stall needed
+          should_stall = false;
+        }
+      } else {
+        should_stall = false;
+      }
+    } else {
+      // Mode 3: No forwarding, use standard hazard detection
+      should_stall = hazard_unit_.ShouldStall(if_id, id_ex, ex_mem, mem_wb);
+      if (should_stall) {
+        if (hazard_unit_.DetectLoadUseHazard(if_id, ex_mem)) {
+          stats_.data_hazards++;  // Load-use hazard
+        } else {
+          stats_.data_hazards++;  // General RAW hazard
+        }
+      }
+    }
+    
+    if (should_stall) {
+      // Hazard detected - insert bubble and stall pipeline
+      pipeline_stall_ = true;
+      InsertBubble();  // Insert NOP 
+      stats_.stalls++;
+      return;
+    } else {
+      // No hazard
+      pipeline_stall_ = false;
+    }
+  }
+  
   // Read register file
   uint64_t read_data1 = registers_.ReadGpr(rs1);
   uint64_t read_data2 = registers_.ReadGpr(rs2);
+  
+  // Mode 5: Static Branch Prediction
+  id_ex.branch_predicted = false;
+  id_ex.branch_predicted_taken = false;
+  id_ex.branch_predicted_target = 0;
+  
+  if (branch_prediction_enabled_ && BranchPredictor::IsBranchOrJump(instruction)) {
+    // Predict branch outcome
+    bool predicted_taken = branch_predictor_.Predict(instruction, pc);
+    id_ex.branch_predicted = true;
+    id_ex.branch_predicted_taken = predicted_taken;
+    
+    if (predicted_taken) {
+      // Calculate predicted target
+      uint64_t predicted_target = branch_predictor_.CalculateBranchTarget(instruction, pc);
+      
+      // Special handling for JALR (needs rs1 value)
+      if (BranchPredictor::IsUnconditionalJump(instruction) && 
+          (opcode == get_instr_encoding(Instruction::kjalr).opcode)) {
+        // For JALR, we need rs1 value to calculate target
+        // Use forwarded value if available, otherwise read from register
+        uint64_t rs1_value = read_data1;
+        if (forwarding_enabled_) {
+          ID_EX_Register temp_id_ex;
+          temp_id_ex.rs1 = rs1;
+          temp_id_ex.rs2 = rs2;
+          temp_id_ex.read_data1 = read_data1;
+          temp_id_ex.read_data2 = read_data2;
+          auto [forwardA, forwardB] = forwarding_unit_.GetForwardingSignals(temp_id_ex, ex_mem, mem_wb);
+          if (forwardA != ForwardingUnit::FORWARD_NONE) {
+            rs1_value = forwarding_unit_.GetForwardedValueA(forwardA, temp_id_ex, ex_mem, mem_wb);
+          }
+        }
+        // Calculate JALR target: (rs1 + imm) & ~1
+        int32_t jalr_imm = ImmGenerator(instruction);
+        predicted_target = (rs1_value + static_cast<uint64_t>(static_cast<int64_t>(jalr_imm))) & ~1ULL;
+      }
+      
+      id_ex.branch_predicted_target = predicted_target;
+      
+      // Update PC to predicted target (will be used in next Fetch)
+      program_counter_ = predicted_target;
+      stats_.branch_predictions++;
+    } else {
+      // Predict not taken - continue sequential execution
+      id_ex.branch_predicted_target = pc + 4;  // Sequential
+      stats_.branch_predictions++;
+    }
+  }
   
   // Update ID/EX register
   id_ex.reg_write = control_unit_.GetRegWrite();
@@ -211,10 +320,27 @@ void RV5SVM::Execute() {
   //   return;
   // }
   
-  // Get ALU inputs
+  // Get ALU inputs with forwarding (Mode 4)
   uint64_t reg1_value = id_ex.read_data1;
   uint64_t reg2_value = id_ex.read_data2;
   
+  // Apply forwarding if enabled
+  if (forwarding_enabled_) {
+    auto [forwardA, forwardB] = forwarding_unit_.GetForwardingSignals(id_ex, ex_mem, mem_wb);
+    
+    // Get forwarded value for rs1 (operand A)
+    reg1_value = forwarding_unit_.GetForwardedValueA(forwardA, id_ex, ex_mem, mem_wb);
+    
+    // Get forwarded value for rs2 (operand B)
+    reg2_value = forwarding_unit_.GetForwardedValueB(forwardB, id_ex, ex_mem, mem_wb);
+    
+    // Track forwarding events for statistics
+    if (forwardA != ForwardingUnit::FORWARD_NONE || forwardB != ForwardingUnit::FORWARD_NONE) {
+      stats_.forwarding_events++;
+    }
+  }
+  
+  // Use immediate if alu_src is true (after forwarding)
   if (id_ex.alu_src) {
     reg2_value = static_cast<uint64_t>(static_cast<int64_t>(id_ex.imm));
   }
@@ -227,6 +353,7 @@ void RV5SVM::Execute() {
   // Handle branches and jumps
   bool branch_taken = false;
   uint64_t branch_target = 0;
+  bool mispredicted = false;
   
   if (id_ex.branch) {
     if (opcode == get_instr_encoding(Instruction::kjalr).opcode || 
@@ -235,20 +362,35 @@ void RV5SVM::Execute() {
       if (opcode == get_instr_encoding(Instruction::kjalr).opcode) {
         branch_target = execution_result_;
         branch_taken = true;
-        pipeline_flush_ = true;
-        program_counter_ = branch_target;
       } else if (opcode == get_instr_encoding(Instruction::kjal).opcode) {
         branch_target = id_ex.pc + id_ex.imm;
         branch_taken = true;
+      }
+      
+      // Mode 5: Check for misprediction on unconditional jumps
+      if (branch_prediction_enabled_ && id_ex.branch_predicted) {
+        // Unconditional jumps are always taken, so if we predicted not taken, it's a misprediction
+        if (!id_ex.branch_predicted_taken || id_ex.branch_predicted_target != branch_target) {
+          mispredicted = true;
+          stats_.branch_mispredictions++;
+          pipeline_flush_ = true;
+          program_counter_ = branch_target;
+        } else {
+          // Correct prediction - no flush needed, PC already updated
+          pipeline_flush_ = false;
+        }
+      } else {
+        // Mode 2-4: Original behavior (always flush on jump)
         pipeline_flush_ = true;
         program_counter_ = branch_target;
       }
-      } else if (opcode == get_instr_encoding(Instruction::kbeq).opcode ||
+    } else if (opcode == get_instr_encoding(Instruction::kbeq).opcode ||
                opcode == get_instr_encoding(Instruction::kbne).opcode ||
                opcode == get_instr_encoding(Instruction::kblt).opcode ||
                opcode == get_instr_encoding(Instruction::kbge).opcode ||
                opcode == get_instr_encoding(Instruction::kbltu).opcode ||
                opcode == get_instr_encoding(Instruction::kbgeu).opcode) {
+      // Conditional branches
       switch (funct3) {
         case 0b000: branch_taken = (execution_result_ == 0); break; // BEQ
         case 0b001: branch_taken = (execution_result_ != 0); break; // BNE
@@ -257,10 +399,37 @@ void RV5SVM::Execute() {
         case 0b110: branch_taken = (execution_result_ == 1); break; // BLTU
         case 0b111: branch_taken = (execution_result_ == 0); break; // BGEU
       }
+      
       if (branch_taken) {
         branch_target = id_ex.pc + id_ex.imm;
-        pipeline_flush_ = true;  // Flush pipeline on branch
-        program_counter_ = branch_target;  // Update PC
+      } else {
+        branch_target = id_ex.pc + 4;  // Sequential
+      }
+      
+      // Mode 5: Check for misprediction
+      if (branch_prediction_enabled_ && id_ex.branch_predicted) {
+        bool predicted_correctly = (id_ex.branch_predicted_taken == branch_taken) &&
+                                   (id_ex.branch_predicted_target == branch_target);
+        
+        if (!predicted_correctly) {
+          // Misprediction!
+          mispredicted = true;
+          stats_.branch_mispredictions++;
+          pipeline_flush_ = true;
+          program_counter_ = branch_target;  // Fetch from correct address
+        } else {
+          // Correct prediction - no flush needed
+          pipeline_flush_ = false;
+          // PC already updated by prediction in Decode stage
+        }
+      } else {
+        // Mode 2-4: Original behavior (flush on taken branch)
+        if (branch_taken) {
+          pipeline_flush_ = true;
+          program_counter_ = branch_target;
+        } else {
+          pipeline_flush_ = false;
+        }
       }
     }
   }
@@ -279,8 +448,17 @@ void RV5SVM::Execute() {
   ex_mem.mem_write = id_ex.mem_write;
   ex_mem.branch_target = branch_target;
   ex_mem.branch_taken = branch_taken;
+  ex_mem.branch_mispredicted = mispredicted;
   ex_mem.alu_result = execution_result_;
-  ex_mem.write_data = id_ex.read_data2;  // For stores
+  
+  // For stores: use forwarded value if forwarding is enabled
+  if (forwarding_enabled_ && id_ex.mem_write) {
+    auto [forwardA, forwardB] = forwarding_unit_.GetForwardingSignals(id_ex, ex_mem, mem_wb);
+    ex_mem.write_data = forwarding_unit_.GetForwardedStoreData(forwardB, id_ex, ex_mem, mem_wb);
+  } else {
+    ex_mem.write_data = id_ex.read_data2;  // For stores
+  }
+  
   ex_mem.pc = id_ex.pc;  // Pass PC through for return address calculation
   ex_mem.rd = id_ex.rd;
   ex_mem.instruction = instruction;
@@ -488,7 +666,23 @@ void RV5SVM::Run() {
               << " Instructions=" << stats_.instructions_retired
               << " CPI=" << stats_.cpi
               << " Stalls=" << stats_.stalls
-              << " Data Hazards=" << stats_.data_hazards << std::endl;
+              << " Data Hazards=" << stats_.data_hazards;
+    if (forwarding_enabled_) {
+      std::cout << " Forwarding Events=" << stats_.forwarding_events;
+    }
+    if (branch_prediction_enabled_) {
+      // Calculate prediction accuracy
+      if (stats_.branch_predictions > 0) {
+        stats_.branch_prediction_accuracy = 
+          100.0f * (1.0f - static_cast<float>(stats_.branch_mispredictions) / 
+                          static_cast<float>(stats_.branch_predictions));
+      }
+      std::cout << " Branch Predictions=" << stats_.branch_predictions
+                << " Mispredictions=" << stats_.branch_mispredictions
+                << " Accuracy=" << std::fixed << std::setprecision(2) 
+                << stats_.branch_prediction_accuracy << "%";
+    }
+    std::cout << std::endl;
     output_status_ = "VM_PROGRAM_END";
   }
   
@@ -529,6 +723,26 @@ void RV5SVM::SetHazardDetectionEnabled(bool enabled) {
 
 bool RV5SVM::IsHazardDetectionEnabled() const {
   return hazard_detection_enabled_;
+}
+
+void RV5SVM::SetForwardingEnabled(bool enabled) {
+  forwarding_enabled_ = enabled;
+}
+
+bool RV5SVM::IsForwardingEnabled() const {
+  return forwarding_enabled_;
+}
+
+void RV5SVM::SetBranchPredictionEnabled(bool enabled) {
+  branch_prediction_enabled_ = enabled;
+}
+
+bool RV5SVM::IsBranchPredictionEnabled() const {
+  return branch_prediction_enabled_;
+}
+
+void RV5SVM::SetBranchPredictionPolicy(BranchPredictor::PredictionPolicy policy) {
+  branch_predictor_.SetPolicy(policy);
 }
 
 void RV5SVM::Reset() {

@@ -9,6 +9,8 @@
 #include "vm/vm_base.h"
 #include "vm/pipeline_registers.h"
 #include "vm/hazard_detection_unit.h"
+#include "vm/forwarding_unit.h"
+#include "vm/branch_predictor.h"
 #include "rv5s_control_unit.h"
 
 #include <stack>
@@ -51,10 +53,18 @@ public:
     // Hazard detection unit
     HazardDetectionUnit hazard_unit_;
     
+    // Forwarding unit (Mode 4)
+    ForwardingUnit forwarding_unit_;
+    
+    // Branch predictor (Mode 5)
+    BranchPredictor branch_predictor_;
+    
     // Pipeline control
     bool pipeline_stall_ = false;
     bool pipeline_flush_ = false;
     bool hazard_detection_enabled_ = false;
+    bool forwarding_enabled_ = false;
+    bool branch_prediction_enabled_ = false;
     
     // Undo/Redo support
     std::stack<RV5SStepDelta> undo_stack_;
@@ -99,6 +109,11 @@ public:
     // Configuration
     void SetHazardDetectionEnabled(bool enabled);
     bool IsHazardDetectionEnabled() const;
+    void SetForwardingEnabled(bool enabled);
+    bool IsForwardingEnabled() const;
+    void SetBranchPredictionEnabled(bool enabled);
+    bool IsBranchPredictionEnabled() const;
+    void SetBranchPredictionPolicy(BranchPredictor::PredictionPolicy policy);
     
     // Override base methods
     void Run() override;
@@ -121,6 +136,9 @@ public:
         unsigned int data_hazards = 0;
         unsigned int control_hazards = 0;
         unsigned int forwarding_events = 0;
+        unsigned int branch_predictions = 0;
+        unsigned int branch_mispredictions = 0;
+        float branch_prediction_accuracy = 0.0f;
         float cpi = 0.0f;
     } stats_;
     
