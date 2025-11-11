@@ -162,11 +162,19 @@ int main(int argc, char *argv[]) {
         vm_config::config.modifyConfig(command.args[0], command.args[1], command.args[2]);
         // Recreate VM if processor type changed
         if (command.args[0] == "Execution" && command.args[1] == "processor_type") {
+          // Stop and join any running VM thread before recreating
+          if (vm_thread.joinable()) {
+            vm.RequestStop();
+            vm_thread.join();
+          }
+          // Recreate the VM object
           if (vm_config::config.getVmType() == vm_config::VmTypes::SINGLE_STAGE) {
             vm_ptr = std::make_unique<RVSSVM>();
           } else {
             vm_ptr = std::make_unique<RV5SVM>();
           }
+          // Update the reference to point to the new object
+          vm = *vm_ptr;
         }
         std::cout << "VM_MODIFY_CONFIG_SUCCESS" << std::endl;
       } catch (const std::exception &e) {
