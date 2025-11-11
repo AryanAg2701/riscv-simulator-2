@@ -235,6 +235,9 @@ void RV5SVM::Decode() {
       // Calculate predicted target
       uint64_t predicted_target = branch_predictor_.CalculateBranchTarget(instruction, pc);
       
+      // Extract opcode for JALR check
+      uint8_t opcode = instruction & 0x7F;
+      
       // Special handling for JALR (needs rs1 value)
       if (BranchPredictor::IsUnconditionalJump(instruction) && 
           (opcode == get_instr_encoding(Instruction::kjalr).opcode)) {
