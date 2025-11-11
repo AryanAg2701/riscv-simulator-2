@@ -29,7 +29,8 @@ using instruction_set::get_instr_encoding;
 
 RVSSVM::RVSSVM() : VmBase() {
   DumpRegisters(globals::registers_dump_file_path, registers_);
-  DumpState(globals::vm_state_dump_file_path);
+  // DumpState is not called here because program_ is not loaded yet
+  // It will be called after LoadProgram() in VmBase::LoadProgram()
 }
 
 RVSSVM::~RVSSVM() = default;

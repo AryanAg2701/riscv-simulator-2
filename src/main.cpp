@@ -184,16 +184,18 @@ int main(int argc, char *argv[]) {
         program = assemble(command.args[0]);
         std::cout << "VM_PARSE_SUCCESS" << std::endl;
         vm.output_status_ = "VM_PARSE_SUCCESS";
-        vm.DumpState(globals::vm_state_dump_file_path);
+        // Don't call DumpState here - program_ is not loaded yet
       } catch (const std::runtime_error &e) {
         std::cout << "VM_PARSE_ERROR" << std::endl;
         vm.output_status_ = "VM_PARSE_ERROR";
-        vm.DumpState(globals::vm_state_dump_file_path);
+        // Don't call DumpState here - program_ is not loaded yet
         std::cerr << e.what() << '\n';
         continue;
       }
       vm.LoadProgram(program);
       std::cout << "Program loaded: " << command.args[0] << std::endl;
+      // Now it's safe to call DumpState after LoadProgram
+      vm.DumpState(globals::vm_state_dump_file_path);
     } else if (command.type==command_handler::CommandType::RUN) {
       launch_vm_thread([&]() { vm.Run(); });
     } else if (command.type==command_handler::CommandType::DEBUG_RUN) {
