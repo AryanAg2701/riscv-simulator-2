@@ -174,7 +174,7 @@ void RV5SVM::Decode() {
       auto [forwardA, forwardB] = forwarding_unit_.GetForwardingSignals(temp_id_ex, ex_mem, mem_wb);
       
       // Load-use hazards always need a stall (can't forward immediately)
-      if (hazard_unit_.DetectLoadUseHazard(if_id, ex_mem)) {
+      if (hazard_unit_.DetectLoadUseHazard(if_id, mem_wb)) {
         should_stall = true;
         stats_.data_hazards++;  // Load-use hazard
       } 
@@ -196,7 +196,7 @@ void RV5SVM::Decode() {
       // Mode 3: No forwarding, use standard hazard detection
       should_stall = hazard_unit_.ShouldStall(if_id, id_ex, ex_mem, mem_wb);
       if (should_stall) {
-        if (hazard_unit_.DetectLoadUseHazard(if_id, ex_mem)) {
+        if (hazard_unit_.DetectLoadUseHazard(if_id, mem_wb)) {
           stats_.data_hazards++;  // Load-use hazard
         } else {
           stats_.data_hazards++;  // General RAW hazard

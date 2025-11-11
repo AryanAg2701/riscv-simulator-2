@@ -47,20 +47,24 @@ bool HazardDetectionUnit::DetectDataHazard(const IF_ID_Register& if_id,
 }
 
 bool HazardDetectionUnit::DetectLoadUseHazard(const IF_ID_Register& if_id,
-                                              const EX_MEM_Register& ex_mem) {
-    if (!if_id.valid || !ex_mem.valid) {
+                                              const MEM_WB_Register& mem_wb) {
+    if (!if_id.valid || !mem_wb.valid) {
         return false;
     }
     
-    // Load use hazard
-    if (ex_mem.mem_read && WillWriteRegister(ex_mem.reg_write, ex_mem.rd)) {
+    // Load use hazard: Check if instruction that was in MEM stage (mem_wb) is a load
+    // and the instruction in ID stage (if_id) needs that register
+    // Note: Since stages execute in reverse order (MEM runs before ID), when Decode()
+    // runs, MemoryAccess() has already moved the MEM stage instruction to mem_wb.
+    // So we check mem_wb to see what was in MEM stage at the start of this cycle.
+    if (mem_wb.mem_read && WillWriteRegister(mem_wb.reg_write, mem_wb.rd)) {
         // Extract registers from ID stage instruction
         uint32_t instruction = if_id.instruction;
         uint8_t id_rs1, id_rs2, id_rd;
         ExtractRegisters(instruction, id_rs1, id_rs2, id_rd);
         
         // Check if ID stage reads from the register that LOAD is writing to
-        if (id_rs1 == ex_mem.rd || id_rs2 == ex_mem.rd) {
+        if (id_rs1 == mem_wb.rd || id_rs2 == mem_wb.rd) {
             return true; 
         }
     }
@@ -73,7 +77,7 @@ bool HazardDetectionUnit::ShouldStall(const IF_ID_Register& if_id,
                                      const EX_MEM_Register& ex_mem,
                                      const MEM_WB_Register& mem_wb) {
     // Check load-use hazard first (more critical, needs immediate stall)
-    if (DetectLoadUseHazard(if_id, ex_mem)) {
+    if (DetectLoadUseHazard(if_id, mem_wb)) {
         return true;
     }
     

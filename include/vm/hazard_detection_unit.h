@@ -21,7 +21,7 @@ public:
                          const MEM_WB_Register& mem_wb);
     
     bool DetectLoadUseHazard(const IF_ID_Register& if_id,
-                            const EX_MEM_Register& ex_mem);
+                            const MEM_WB_Register& mem_wb);
     
     bool ShouldStall(const IF_ID_Register& if_id,
                     const ID_EX_Register& id_ex,
