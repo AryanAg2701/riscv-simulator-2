@@ -174,6 +174,8 @@ void RV5SVM::Decode() {
       auto [forwardA, forwardB] = forwarding_unit_.GetForwardingSignals(temp_id_ex, ex_mem, mem_wb);
       
       // Load-use hazards always need a stall (can't forward immediately)
+      // Check mem_wb because when Decode() runs, MemoryAccess() has already
+      // moved the load from ex_mem to mem_wb
       if (hazard_unit_.DetectLoadUseHazard(if_id, mem_wb)) {
         should_stall = true;
         stats_.data_hazards++;  // Load-use hazard

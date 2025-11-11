@@ -52,12 +52,24 @@ bool HazardDetectionUnit::DetectLoadUseHazard(const IF_ID_Register& if_id,
         return false;
     }
     
-    // Load use hazard: Check if instruction that was in MEM stage (mem_wb) is a load
-    // and the instruction in ID stage (if_id) needs that register
-    // Note: Since stages execute in reverse order (MEM runs before ID), when Decode()
-    // runs, MemoryAccess() has already moved the MEM stage instruction to mem_wb.
-    // So we check mem_wb to see what was in MEM stage at the start of this cycle.
-    if (mem_wb.mem_read && WillWriteRegister(mem_wb.reg_write, mem_wb.rd)) {
+    // Load use hazard: Check if instruction that was in MEM stage is a load
+    // and the instruction in ID stage needs that register
+    // 
+    // IMPORTANT: When Decode() runs, stages execute in reverse order:
+    // 1. MemoryAccess() has already run - processed ex_mem (load in MEM), wrote to mem_wb
+    // 2. Execute() has already run - processed id_ex, wrote to ex_mem
+    // 3. Decode() is now running
+    //
+    // So the load instruction that was in MEM stage is now in mem_wb.
+    // We check mem_wb to see if it was a load instruction.
+    // Load instructions have opcode 0b0000011
+    uint32_t mem_wb_instruction = mem_wb.instruction;
+    uint8_t opcode = mem_wb_instruction & 0x7F;  // Lower 7 bits
+    
+    // Check if mem_wb contains a load instruction (opcode 0b0000011)
+    bool is_load = (opcode == 0b0000011);
+    
+    if (is_load && WillWriteRegister(mem_wb.reg_write, mem_wb.rd)) {
         // Extract registers from ID stage instruction
         uint32_t instruction = if_id.instruction;
         uint8_t id_rs1, id_rs2, id_rd;
@@ -77,6 +89,8 @@ bool HazardDetectionUnit::ShouldStall(const IF_ID_Register& if_id,
                                      const EX_MEM_Register& ex_mem,
                                      const MEM_WB_Register& mem_wb) {
     // Check load-use hazard first (more critical, needs immediate stall)
+    // When Decode() runs, MemoryAccess() has already run, so the load that
+    // was in MEM stage is now in mem_wb. We check mem_wb to detect load-use hazards.
     if (DetectLoadUseHazard(if_id, mem_wb)) {
         return true;
     }
