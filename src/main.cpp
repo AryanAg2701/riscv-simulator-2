@@ -102,7 +102,7 @@ int main(int argc, char *argv[]) {
   } else {
     vm_ptr = std::make_unique<RV5SVM>();
   }
-  VmBase& vm = *vm_ptr;
+  VmBase* vm = vm_ptr.get();
   // try {
   //   program = assemble("/home/vis/Desk/codes/assembler/examples/ntest1.s");
   // } catch (const std::runtime_error &e) {
@@ -134,7 +134,7 @@ int main(int argc, char *argv[]) {
 
   auto launch_vm_thread = [&](auto fn) {
     if (vm_thread.joinable()) {
-      vm.RequestStop();   
+      vm->RequestStop();   
       vm_thread.join();
     }
     vm_running = true;
@@ -164,7 +164,7 @@ int main(int argc, char *argv[]) {
         if (command.args[0] == "Execution" && command.args[1] == "processor_type") {
           // Stop and join any running VM thread before recreating
           if (vm_thread.joinable()) {
-            vm.RequestStop();
+            vm->RequestStop();
             vm_thread.join();
           }
           // Recreate the VM object
@@ -173,8 +173,8 @@ int main(int argc, char *argv[]) {
           } else {
             vm_ptr = std::make_unique<RV5SVM>();
           }
-          // Update the reference to point to the new object
-          vm = *vm_ptr;
+          // Update the pointer to point to the new object
+          vm = vm_ptr.get();
         }
         std::cout << "VM_MODIFY_CONFIG_SUCCESS" << std::endl;
       } catch (const std::exception &e) {
@@ -191,50 +191,50 @@ int main(int argc, char *argv[]) {
       try {
         program = assemble(command.args[0]);
         std::cout << "VM_PARSE_SUCCESS" << std::endl;
-        vm.output_status_ = "VM_PARSE_SUCCESS";
+        vm->output_status_ = "VM_PARSE_SUCCESS";
         // Don't call DumpState here - program_ is not loaded yet
       } catch (const std::runtime_error &e) {
         std::cout << "VM_PARSE_ERROR" << std::endl;
-        vm.output_status_ = "VM_PARSE_ERROR";
+        vm->output_status_ = "VM_PARSE_ERROR";
         // Don't call DumpState here - program_ is not loaded yet
         std::cerr << e.what() << '\n';
         continue;
       }
-      vm.LoadProgram(program);
+      vm->LoadProgram(program);
       std::cout << "Program loaded: " << command.args[0] << std::endl;
       // Now it's safe to call DumpState after LoadProgram
-      vm.DumpState(globals::vm_state_dump_file_path);
+      vm->DumpState(globals::vm_state_dump_file_path);
     } else if (command.type==command_handler::CommandType::RUN) {
-      launch_vm_thread([&]() { vm.Run(); });
+      launch_vm_thread([&]() { vm->Run(); });
     } else if (command.type==command_handler::CommandType::DEBUG_RUN) {
-      launch_vm_thread([&]() { vm.DebugRun(); });
+      launch_vm_thread([&]() { vm->DebugRun(); });
     } else if (command.type==command_handler::CommandType::STOP) {
-      vm.RequestStop();
+      vm->RequestStop();
       std::cout << "VM_STOPPED" << std::endl;
-      vm.output_status_ = "VM_STOPPED";
-      vm.DumpState(globals::vm_state_dump_file_path);
+      vm->output_status_ = "VM_STOPPED";
+      vm->DumpState(globals::vm_state_dump_file_path);
     } else if (command.type==command_handler::CommandType::STEP) {
       if (vm_running) continue;
-      launch_vm_thread([&]() { vm.Step(); });
+      launch_vm_thread([&]() { vm->Step(); });
 
     } else if (command.type==command_handler::CommandType::UNDO) {
       if (vm_running) continue;
-      vm.Undo();
+      vm->Undo();
     } else if (command.type==command_handler::CommandType::REDO) {
       if (vm_running) continue;
-      vm.Redo();
+      vm->Redo();
     } else if (command.type==command_handler::CommandType::RESET) {
-      vm.Reset();
+      vm->Reset();
     } else if (command.type==command_handler::CommandType::EXIT) {
-      vm.RequestStop();
+      vm->RequestStop();
       if (vm_thread.joinable()) vm_thread.join(); // ensure clean exit
-      vm.output_status_ = "VM_EXITED";
-      vm.DumpState(globals::vm_state_dump_file_path);
+      vm->output_status_ = "VM_EXITED";
+      vm->DumpState(globals::vm_state_dump_file_path);
       break;
     } else if (command.type==command_handler::CommandType::ADD_BREAKPOINT) {
-      vm.AddBreakpoint(std::stoul(command.args[0], nullptr, 10));
+      vm->AddBreakpoint(std::stoul(command.args[0], nullptr, 10));
     } else if (command.type==command_handler::CommandType::REMOVE_BREAKPOINT) {
-      vm.RemoveBreakpoint(std::stoul(command.args[0], nullptr, 10));
+      vm->RemoveBreakpoint(std::stoul(command.args[0], nullptr, 10));
     } else if (command.type==command_handler::CommandType::MODIFY_REGISTER) {
       try {
         if (command.args.size() != 2) {
@@ -243,8 +243,8 @@ int main(int argc, char *argv[]) {
         }
         std::string reg_name = command.args[0];
         uint64_t value = std::stoull(command.args[1], nullptr, 16);
-        vm.ModifyRegister(reg_name, value);
-        DumpRegisters(globals::registers_dump_file_path, vm.registers_);
+        vm->ModifyRegister(reg_name, value);
+        DumpRegisters(globals::registers_dump_file_path, vm->registers_);
         std::cout << "VM_MODIFY_REGISTER_SUCCESS" << std::endl;
       } catch (const std::out_of_range &e) {
         std::cout << "VM_MODIFY_REGISTER_ERROR" << std::endl;
@@ -259,7 +259,7 @@ int main(int argc, char *argv[]) {
         std::cout << "VM_REGISTER_VAL_START";
         std::cout << "0x"
                   << std::hex
-                  << vm.registers_.ReadGpr(std::stoi(reg_str.substr(1))) 
+                  << vm->registers_.ReadGpr(std::stoi(reg_str.substr(1))) 
                   << std::dec;
         std::cout << "VM_REGISTER_VAL_END"<< std::endl;
       } 
@@ -277,13 +277,13 @@ int main(int argc, char *argv[]) {
         uint64_t value = std::stoull(command.args[2], nullptr, 16);
 
         if (type == "byte") {
-          vm.memory_controller_.WriteByte(address, static_cast<uint8_t>(value));
+          vm->memory_controller_.WriteByte(address, static_cast<uint8_t>(value));
         } else if (type == "half") {
-          vm.memory_controller_.WriteHalfWord(address, static_cast<uint16_t>(value));
+          vm->memory_controller_.WriteHalfWord(address, static_cast<uint16_t>(value));
         } else if (type == "word") {
-          vm.memory_controller_.WriteWord(address, static_cast<uint32_t>(value));
+          vm->memory_controller_.WriteWord(address, static_cast<uint32_t>(value));
         } else if (type == "double") {
-          vm.memory_controller_.WriteDoubleWord(address, value);
+          vm->memory_controller_.WriteDoubleWord(address, value);
         } else {
           std::cout << "VM_MODIFY_MEMORY_ERROR" << std::endl;
           continue;
@@ -302,7 +302,7 @@ int main(int argc, char *argv[]) {
     
     else if (command.type==command_handler::CommandType::DUMP_MEMORY) {
       try {
-        vm.memory_controller_.DumpMemory(command.args);
+        vm->memory_controller_.DumpMemory(command.args);
       } catch (const std::out_of_range &e) {
         std::cout << "VM_MEMORY_DUMP_ERROR" << std::endl;
         continue;
@@ -314,7 +314,7 @@ int main(int argc, char *argv[]) {
       for (size_t i = 0; i < command.args.size(); i+=2) {
         uint64_t address = std::stoull(command.args[i], nullptr, 16);
         uint64_t rows = std::stoull(command.args[i+1]);
-        vm.memory_controller_.PrintMemory(address, rows);
+        vm->memory_controller_.PrintMemory(address, rows);
       }
       std::cout << std::endl;
     } else if (command.type==command_handler::CommandType::GET_MEMORY_POINT) {
@@ -323,12 +323,12 @@ int main(int argc, char *argv[]) {
         continue;
       }
       // uint64_t address = std::stoull(command.args[0], nullptr, 16);
-      vm.memory_controller_.GetMemoryPoint(command.args[0]);
+      vm->memory_controller_.GetMemoryPoint(command.args[0]);
     } 
 
 
     else if (command.type==command_handler::CommandType::VM_STDIN) {
-      vm.PushInput(command.args[0]);
+      vm->PushInput(command.args[0]);
     }
     
     
