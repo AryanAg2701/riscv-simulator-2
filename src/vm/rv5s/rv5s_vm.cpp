@@ -542,8 +542,16 @@ void RV5SVM::WriteBack() {
   uint8_t funct3 = (instruction >> 12) & 0b111;
   uint8_t rd = mem_wb.rd;
   
+  // Count all instructions (including stores, floating point, CSR, etc.)
+  // Skip NOPs (0x00000013) and invalid instructions
+  bool should_count = (instruction != 0 && instruction != 0x00000013);
+  
   if (opcode == get_instr_encoding(Instruction::kecall).opcode && 
       funct3 == get_instr_encoding(Instruction::kecall).funct3) {
+    if (should_count) {
+      instructions_retired_++;
+      stats_.instructions_retired++;
+    }
     mem_wb.Clear();
     return;
   }
@@ -551,14 +559,26 @@ void RV5SVM::WriteBack() {
   // Handle floating point writeback
   if (instruction_set::isFInstruction(instruction)) {
     WriteBackFloat();
+    if (should_count) {
+      instructions_retired_++;
+      stats_.instructions_retired++;
+    }
     mem_wb.Clear();
     return;
   } else if (instruction_set::isDInstruction(instruction)) {
     WriteBackDouble();
+    if (should_count) {
+      instructions_retired_++;
+      stats_.instructions_retired++;
+    }
     mem_wb.Clear();
     return;
   } else if (opcode == 0b1110011) {
     WriteBackCsr();
+    if (should_count) {
+      instructions_retired_++;
+      stats_.instructions_retired++;
+    }
     mem_wb.Clear();
     return;
   }
@@ -581,7 +601,13 @@ void RV5SVM::WriteBack() {
     // LUI and AUIPC results are already in alu_result from Execute stage
     
     registers_.WriteGpr(rd, write_value);
+  }
+  
+  // Count all instructions (including stores and other non-register-writing instructions)
+  // Skip NOPs (0x00000013) and invalid instructions
+  if (instruction != 0 && instruction != 0x00000013) {
     instructions_retired_++;
+    stats_.instructions_retired++;
   }
   
   // Clear pipeline register after processing
@@ -638,20 +664,17 @@ void RV5SVM::HandleSyscall() {
 
 void RV5SVM::Run() {
   ClearStop();
-  uint64_t instruction_executed = 0;
   stats_ = PipelineStats();  // Reset statistics
 
   while (!stop_requested_ && !VmBase::stop_requested_ && HasInstructionsInPipeline()) {
-    if (instruction_executed > vm_config::config.getInstructionExecutionLimit())
+    if (stats_.instructions_retired > vm_config::config.getInstructionExecutionLimit())
       break;
 
     Tick();
     stats_.total_cycles++;
     
-    if (mem_wb.valid && mem_wb.instruction != 0 && mem_wb.instruction != 0x00000013) {
-      instruction_executed++;
-      stats_.instructions_retired++;
-    }
+    // Note: Instructions are counted in WriteBack() stage, not here
+    // This check was incorrect as it checked mem_wb after WriteBack() cleared it
     
     std::cout << "Cycle: " << cycle_s_ << " PC: " << std::hex << program_counter_ << std::dec;
     if (pipeline_stall_) {
