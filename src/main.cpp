@@ -13,6 +13,8 @@
 #include <bitset>
 #include <regex>
 #include <memory>
+#include <chrono>
+#include <filesystem>
 
 
 
@@ -103,6 +105,12 @@ int main(int argc, char *argv[]) {
     vm_ptr = std::make_unique<RV5SVM>();
   }
   VmBase* vm = vm_ptr.get();
+  // Enable simple cache by default using the main simulator's cache config
+  // [Temporarily disabled to isolate crash after LOAD]
+  // {
+  //   std::filesystem::path cache_cfg_path = "RISC-V-Simulator-main/backend/Simulator/cacheConfig.txt";
+  //   vm->memory_controller_.EnableSimpleCacheFromFile(cache_cfg_path.string());
+  // }
   // try {
   //   program = assemble("/home/vis/Desk/codes/assembler/examples/ntest1.s");
   // } catch (const std::runtime_error &e) {
@@ -205,9 +213,27 @@ int main(int argc, char *argv[]) {
       // Now it's safe to call DumpState after LoadProgram
       vm->DumpState(globals::vm_state_dump_file_path);
     } else if (command.type==command_handler::CommandType::RUN) {
+      auto t0 = std::chrono::high_resolution_clock::now();
       launch_vm_thread([&]() { vm->Run(); });
+      if (vm_thread.joinable()) vm_thread.join();
+      auto t1 = std::chrono::high_resolution_clock::now();
+      auto dt = t1 - t0;
+      auto ms_int = std::chrono::duration_cast<std::chrono::milliseconds>(dt).count();
+      auto ns_int = std::chrono::duration_cast<std::chrono::nanoseconds>(dt).count();
+      std::cout << "MODE_TIME_MS=" << ms_int << std::endl;
+      std::cout << "MODE_TIME_NS=" << ns_int << std::endl;
+      vm->memory_controller_.PrintCacheStatus();
     } else if (command.type==command_handler::CommandType::DEBUG_RUN) {
+      auto t0 = std::chrono::high_resolution_clock::now();
       launch_vm_thread([&]() { vm->DebugRun(); });
+      if (vm_thread.joinable()) vm_thread.join();
+      auto t1 = std::chrono::high_resolution_clock::now();
+      auto dt = t1 - t0;
+      auto ms_int = std::chrono::duration_cast<std::chrono::milliseconds>(dt).count();
+      auto ns_int = std::chrono::duration_cast<std::chrono::nanoseconds>(dt).count();
+      std::cout << "MODE_TIME_MS=" << ms_int << std::endl;
+      std::cout << "MODE_TIME_NS=" << ns_int << std::endl;
+      vm->memory_controller_.PrintCacheStatus();
     } else if (command.type==command_handler::CommandType::STOP) {
       vm->RequestStop();
       std::cout << "VM_STOPPED" << std::endl;
@@ -325,6 +351,47 @@ int main(int argc, char *argv[]) {
       // uint64_t address = std::stoull(command.args[0], nullptr, 16);
       vm->memory_controller_.GetMemoryPoint(command.args[0]);
     } 
+    
+    else if (command.type==command_handler::CommandType::ENABLE_CACHE) {
+      std::string rel = "RISC-V-Simulator-main/backend/Simulator/cacheConfig.txt";
+      std::filesystem::path chosen;
+      bool ok = false;
+      if (!command.args.empty()) {
+        chosen = command.args[0];
+        if (std::filesystem::exists(chosen)) ok = true;
+      }
+      if (!ok) {
+        std::filesystem::path p0 = rel;
+        std::filesystem::path p1 = std::filesystem::path("..") / rel;
+        std::filesystem::path p2 = std::filesystem::path("../..") / rel;
+        std::filesystem::path p3 = "/Users/aryanagarwal/Documents/riscv-simulator-2/RISC-V-Simulator-main/backend/Simulator/cacheConfig.txt";
+        for (auto& c : {p0, p1, p2, p3}) {
+          if (std::filesystem::exists(c)) { chosen = c; ok = true; break; }
+        }
+      }
+      if (!ok) {
+        // Fallback to a sane default if no config file is found
+        vm->memory_controller_.EnableSimpleCache(
+          /*cache_size*/ 16384,
+          /*block_size*/ 64,
+          /*associativity*/ 4,
+          /*replacement_policy*/ "LRU",
+          /*write_back_policy*/ "WB"
+        );
+        std::cout << "CACHE_ENABLED_DEFAULT" << std::endl;
+      } else {
+        vm->memory_controller_.EnableSimpleCacheFromFile(chosen.string());
+        std::cout << "CACHE_ENABLED" << std::endl;
+      }
+    } else if (command.type==command_handler::CommandType::DISABLE_CACHE) {
+      vm->memory_controller_.DisableCache();
+      std::cout << "CACHE_DISABLED" << std::endl;
+    } else if (command.type==command_handler::CommandType::INVALIDATE_CACHE) {
+      vm->memory_controller_.InvalidateCache();
+      std::cout << "CACHE_INVALIDATED" << std::endl;
+    } else if (command.type==command_handler::CommandType::PRINT_CACHE_STATUS) {
+      vm->memory_controller_.PrintCacheStatus();
+    }
 
 
     else if (command.type==command_handler::CommandType::VM_STDIN) {

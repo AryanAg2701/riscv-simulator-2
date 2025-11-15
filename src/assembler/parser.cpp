@@ -112,16 +112,20 @@ void Parser::parseDataDirective()
       {
         align(1);
       }
+      else if (peekToken(1).value == "space")
+      {
+        align(1);
+      }
       else
       {
         errors_.count++;
         recordError(
             ParseError(
                 currentToken().line_number,
-                "Invalid directive: Expected .dword, .word, .halfword, .byte, .float, .double, .string, .zero"));
+                "Invalid directive: Expected .dword, .word, .halfword, .byte, .float, .double, .string, .zero, .space"));
         errors_.all_errors.emplace_back(
             errors::SyntaxError(
-                "Invalid directive", "Expected .dword, .word, .halfword, .byte, .float, .double, .string, .zero",
+                "Invalid directive", "Expected .dword, .word, .halfword, .byte, .float, .double, .string, .zero, .space",
                 filename_, currentToken().line_number,
                 currentToken().column_number,
                 GetLineFromFile(filename_, currentToken().line_number)));
@@ -307,16 +311,45 @@ void Parser::parseDataDirective()
         nextToken();
       }
     }
+    else if (currentToken().value == "space")
+    {
+      // Reserve N zero bytes in .data (equivalent to .zero N)
+      nextToken();
+      if (currentToken().type == TokenType::NUM) {
+        uint64_t count = std::stoull(currentToken().value, nullptr, 0);
+        for (uint64_t k = 0; k < count; ++k) {
+          align(1);
+          ParserDataEntry entry;
+          entry.type = ParserDataEntry::DataType::U8;
+          entry.value.u8 = 0;
+          data_buffer_.emplace_back(std::move(entry));
+          data_index_ += 1;
+        }
+        nextToken();
+      } else {
+        errors_.count++;
+        recordError(
+            ParseError(
+                currentToken().line_number,
+                "Invalid directive: Expected numeric argument for .space"));
+        errors_.all_errors.emplace_back(
+            errors::SyntaxError(
+                "Invalid directive", "Expected: .space <bytes>",
+                filename_, currentToken().line_number,
+                currentToken().column_number,
+                GetLineFromFile(filename_, currentToken().line_number)));
+      }
+    }
     else
     {
       errors_.count++;
       recordError(
           ParseError(
               currentToken().line_number,
-              "Invalid directive: Expected .dword, .word, .halfword, .byte, .string, .float, .double, .zero"));
+              "Invalid directive: Expected .dword, .word, .halfword, .byte, .string, .float, .double, .zero, .space"));
       errors_.all_errors.emplace_back(
           errors::SyntaxError(
-              "Invalid directive", "Expected .dword, .word, .halfword, .byte, .string, .float, .double, .zero",
+              "Invalid directive", "Expected .dword, .word, .halfword, .byte, .string, .float, .double, .zero, .space",
               filename_, currentToken().line_number,
               currentToken().column_number,
               GetLineFromFile(filename_, currentToken().line_number)));
@@ -628,7 +661,13 @@ void Parser::parse()
   {
     if (currentToken().value == "section" && currentToken().type == TokenType::DIRECTIVE)
     {
-      nextToken();
+      // Skip entire `.section ...` line
+      skipCurrentLine();
+    }
+    else if ((currentToken().value == "globl" || currentToken().value == "global") && currentToken().type == TokenType::DIRECTIVE)
+    {
+      // Ignore symbol visibility directives; skip the line
+      skipCurrentLine();
     }
     else if (currentToken().value == "data" && currentToken().type == TokenType::DIRECTIVE)
     {
@@ -672,7 +711,13 @@ void Parser::parse()
   {
     if (currentToken().value == "section" && currentToken().type == TokenType::DIRECTIVE)
     {
-      nextToken();
+      // Skip entire `.section ...` line
+      skipCurrentLine();
+    }
+    else if ((currentToken().value == "globl" || currentToken().value == "global") && currentToken().type == TokenType::DIRECTIVE)
+    {
+      // Ignore symbol visibility directives; skip the line
+      skipCurrentLine();
     }
     else if (currentToken().value == "data" && currentToken().type == TokenType::DIRECTIVE)
     {

@@ -58,6 +58,14 @@ Command ParseCommand(const std::string &input) {
     command_type = command_handler::CommandType::REMOVE_BREAKPOINT;
   } else if (command_str=="vm_stdin" || command_str=="vmsin") {
     command_type = command_handler::CommandType::VM_STDIN;
+  } else if (command_str=="enable_cache" || command_str=="ecache") {
+    command_type = command_handler::CommandType::ENABLE_CACHE;
+  } else if (command_str=="disable_cache" || command_str=="dcache") {
+    command_type = command_handler::CommandType::DISABLE_CACHE;
+  } else if (command_str=="invalidate_cache" || command_str=="icache") {
+    command_type = command_handler::CommandType::INVALIDATE_CACHE;
+  } else if (command_str=="print_cache" || command_str=="pcache") {
+    command_type = command_handler::CommandType::PRINT_CACHE_STATUS;
   }
   else if (command_str=="exit" || command_str=="quit" || command_str=="q") {
     command_type = command_handler::CommandType::EXIT;

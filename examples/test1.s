@@ -1,14 +1,17 @@
-add x31, x31, x31
-addi x0, x0, -353
-srli x5, x5, 31
-ecall
-label1:
-lb x10, 23(x0)
-sd x10, -1023(x19)
+    .data
+var:    .word 0
 
-beq x10, x7, label1
-
-lui x3, 0x10000
-auipc x3, 0x10
-jal x0, label1
-jal x0, 12422
+    .text
+    .globl _start
+_start:
+    lw    x6, 0(x5)
+    addi  x7, x6, 1
+    sw    x7, 0(x5)
+    beq   x6, x0, L1
+    addi  x8, x0, 0
+    jal    L2
+L1:
+    addi  x8, x0, 1
+L2:
+    lw    x9, 0(x5)
+    nop
